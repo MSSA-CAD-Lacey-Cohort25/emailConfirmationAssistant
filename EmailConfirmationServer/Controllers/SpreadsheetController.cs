@@ -1,4 +1,5 @@
-﻿using EmailConfirmationService;
+﻿using EmailConfirmationServer.Models;
+using EmailConfirmationService;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -12,6 +13,16 @@ namespace EmailConfirmationServer.Controllers
 {
     public class SpreadsheetController : Controller
     {
+        private IEmailConfirmationContext context;
+
+        public SpreadsheetController()
+        {
+            context = new EmailConfirmationContext();
+        }
+        public SpreadsheetController(IEmailConfirmationContext Context)
+        {
+            context = Context;
+        }
         // GET: Spreadsheet
         public ActionResult Index()
         {
@@ -32,7 +43,12 @@ namespace EmailConfirmationServer.Controllers
                     file.SaveAs(path);                    
                     Spreadsheet spreadsheet = new Spreadsheet(path);
                     spreadsheet.getExcelFile();            
-                    
+                    foreach(Person person in spreadsheet.Persons)
+                    {
+                        context.Add<Person>(person);
+                    }
+                    context.SaveChanges();
+
                     EmailConfirmationService.EmailService emailService = new EmailConfirmationService.EmailService(spreadsheet);
                     await emailService.sendConfirmationEmails();                                                           
                     ViewBag.Message = "File uploaded successfully";

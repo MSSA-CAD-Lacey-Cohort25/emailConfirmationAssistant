@@ -17,8 +17,11 @@ namespace EmailConfirmationService
         public string LastName { get; set; }
 
         public string EmailStMartins { get; set; }
+        public bool StMartinConfirm { get; set; }
 
         public string EmailOutlook { get; set; }
+        public bool OutlookConfirm { get; set; }
+
 
         public override string ToString()
         {
