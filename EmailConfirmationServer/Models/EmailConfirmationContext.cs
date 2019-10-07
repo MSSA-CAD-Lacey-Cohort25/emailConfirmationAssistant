@@ -30,5 +30,10 @@ namespace EmailConfirmationServer.Models
         {
             return Set<T>().Add(entity);
         }
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+        }
     }
 }

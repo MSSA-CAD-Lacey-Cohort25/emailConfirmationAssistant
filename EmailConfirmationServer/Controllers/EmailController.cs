@@ -34,6 +34,8 @@ namespace EmailConfirmationServer.Controllers
             spreadsheet.getExcelFile();
             spreadsheet.ConfirmEmail(email);
             var person = context.FindPersonById(id);
+            //Track saved emails
+
             return View();
         }
     }
