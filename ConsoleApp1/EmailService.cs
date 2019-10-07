@@ -27,16 +27,16 @@ namespace EmailConfirmationService
         {
             var msg = new SendGridMessage();
 
-           msg.SetFrom( new EmailAddress("thworldsmostfakebeonlyusedforthisspecificmomentwithsaxcandkim@stmartin.com", "MSSA"));
+           msg.SetFrom( new EmailAddress("test.email.from.app@stmartin.com", "MSSA"));
 
             var recipients = new List<EmailAddress>();
-            
-         
+
+            var tasks = new List<Task>();
             foreach (Person person in Sheet.Persons)
             {
                 await sendConfirmationEmail(person.EmailOutlook, person.FirstName);
-                await sendConfirmationEmail(person.EmailStMartins, person.FirstName);               
-            }
+                await sendConfirmationEmail(person.EmailStMartins, person.FirstName);                               
+            }            
         }
 
         public async Task<Response> sendConfirmationEmail(string email, string name)
