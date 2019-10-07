@@ -16,9 +16,9 @@ namespace EmailConfirmationServer.Models
 
         public DbSet<Person> People { get; set; }
 
-        Person IEmailConfirmationContext.FindPersonByEmail(string email)
+        Person IEmailConfirmationContext.FindPersonById(int id)
         {
-            return Set<Person>().Find(email);
+            return Set<Person>().Find(id);
         }
 
         void IEmailConfirmationContext.SaveChanges()

@@ -35,12 +35,12 @@ namespace EmailConfirmationService
             var tasks = new List<Task>();
             foreach (Person person in Sheet.Persons)
             {
-                await sendConfirmationEmail(person.EmailOutlook, person.FirstName);
-                await sendConfirmationEmail(person.EmailStMartins, person.FirstName);                               
+                await sendConfirmationEmail(person.EmailOutlook, person.FirstName, person.Id);
+                await sendConfirmationEmail(person.EmailStMartins, person.FirstName, person.Id);                               
             }            
         }
 
-        public async Task<Response> sendConfirmationEmail(string email, string name)
+        public async Task<Response> sendConfirmationEmail(string email, string name, int id)
         {
             var msg = new SendGridMessage();
 
@@ -55,7 +55,8 @@ namespace EmailConfirmationService
             var dynamicTemplateData = new UserInfo
             {
                 Name = name,
-                Email = email
+                Email = email,
+                Id = id
             };
 
             msg.SetTemplateData(dynamicTemplateData);
@@ -72,6 +73,9 @@ namespace EmailConfirmationService
 
             [JsonProperty("email")]
             public string Email { get; set; }
+
+            [JsonProperty("id")]
+            public int Id { get; set; }
         }
 
         public void ConfirmEmail(String email)

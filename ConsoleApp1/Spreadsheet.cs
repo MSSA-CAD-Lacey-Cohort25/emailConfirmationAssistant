@@ -98,6 +98,8 @@ namespace EmailConfirmationService
             for (int row = 2; row <= rowCount; row++)
             {
                 Person person = getPerson(worksheet, row);
+
+                person.Id = row - 1;
                 
                 Persons.Add(person);
           

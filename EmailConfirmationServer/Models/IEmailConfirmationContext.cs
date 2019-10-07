@@ -11,7 +11,7 @@ namespace EmailConfirmationServer.Models
     {
         IQueryable<Person> People { get; }
         void SaveChanges();
-        Person FindPersonByEmail(string email);
+        Person FindPersonById(int id);
         T Add<T>(T entity) where T : class;
     }
 }
