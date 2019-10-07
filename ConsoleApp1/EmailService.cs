@@ -10,6 +10,7 @@ using Word = Microsoft.Office.Interop.Word;
 using SendGrid;
 using SendGrid.Helpers.Mail;
 using System.Diagnostics;
+using Newtonsoft.Json;
 
 namespace EmailConfirmationService
 {
@@ -51,10 +52,26 @@ namespace EmailConfirmationService
           
             msg.SetTemplateId("d-8dbd045f80d44095b9b193bbc594706c");
 
+            var dynamicTemplateData = new UserInfo
+            {
+                Name = name,
+                Email = email
+            };
+
+            msg.SetTemplateData(dynamicTemplateData);
+
             var client = new SendGridClient(APIKey);
             Response response = await client.SendEmailAsync(msg);
-            Debug.WriteLine(response.StatusCode);
             return response;
+        }
+
+        private class UserInfo
+        {
+            [JsonProperty("name")]
+            public string Name { get; set; }
+
+            [JsonProperty("email")]
+            public string Email { get; set; }
         }
 
         public void ConfirmEmail(String email)
