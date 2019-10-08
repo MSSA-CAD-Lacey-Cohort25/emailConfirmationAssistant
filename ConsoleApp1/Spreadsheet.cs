@@ -118,11 +118,8 @@ namespace EmailConfirmationService
 
             person.FirstName = worksheet.Cells[row, FirstColumn].Value;
             person.LastName = worksheet.Cells[row, LastColumn].Value;
-            person.Emails.Add(worksheet.Cells[row, OutlookColumn].Value);
-            person.Emails.Add(worksheet.Cells[row, StMartinColumn].Value);
-
-            //person.EmailOutlook = worksheet.Cells[row, OutlookColumn].Value;
-            //person.EmailStMartins = worksheet.Cells[row, StMartinColumn].Value;
+            person.Emails.Add(new Email(person.Id, worksheet.Cells[row, OutlookColumn].Value));
+            person.Emails.Add(new Email(person.Id, worksheet.Cells[row, StMartinColumn].Value));
 
             return person;
         }

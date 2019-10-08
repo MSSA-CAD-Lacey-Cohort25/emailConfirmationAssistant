@@ -16,6 +16,13 @@ namespace EmailConfirmationServer.Models
 
         public DbSet<Person> People { get; set; }
 
+        IQueryable<Email> IEmailConfirmationContext.Emails
+        {
+            get { return Emails; }
+        }
+
+        public DbSet<Email> Emails { get; set; }
+
         Person IEmailConfirmationContext.FindPersonById(int id)
         {
             return Set<Person>().Find(id);
@@ -31,9 +38,12 @@ namespace EmailConfirmationServer.Models
             return Set<T>().Add(entity);
         }
 
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        IQueryable<Email> IEmailConfirmationContext.FindEmailById(int id)
         {
-            base.OnModelCreating(modelBuilder);
+            var emails = from email in Emails
+                         where email.Id == id
+                         select email;
+            return emails;
         }
     }
 }

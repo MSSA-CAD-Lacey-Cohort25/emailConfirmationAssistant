@@ -66,6 +66,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Email.cs" />
     <Compile Include="EmailService.cs" />
     <Compile Include="Person.cs" />
     <Compile Include="Program.cs" />

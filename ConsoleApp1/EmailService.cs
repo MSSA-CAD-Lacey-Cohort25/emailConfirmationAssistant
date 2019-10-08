@@ -34,9 +34,9 @@ namespace EmailConfirmationService
 
             var tasks = new List<Task>();
             foreach (Person person in Sheet.Persons)
-            {   foreach (string email in person.Emails)
+            {   foreach (var email in person.Emails)
                 {
-                    await sendConfirmationEmail(email, person.FirstName, person.Id);
+                    await sendConfirmationEmail(email.EmailAddress, person.FirstName, person.Id);
                 }                                 
             }            
         }

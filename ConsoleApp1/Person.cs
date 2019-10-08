@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using SendGrid;
 using SendGrid.Helpers.Mail;
 
+
 namespace EmailConfirmationService
 {
     public class Person
@@ -20,7 +21,7 @@ namespace EmailConfirmationService
 
         public string LastName { get; set; }
 
-        public List<string> Emails { get; set; } = new List<string>();
+        public List<Email> Emails { get; set; } = new List<Email>();
         
         //public Person()
         //{

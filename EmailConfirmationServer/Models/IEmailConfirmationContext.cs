@@ -10,10 +10,12 @@ namespace EmailConfirmationServer.Models
     public interface IEmailConfirmationContext
     {
         IQueryable<Person> People { get; }
-        //IQueryable<something> ConfrimedEmails { get; }
+        IQueryable<Email> Emails { get; }
+        
         
         void SaveChanges();
         Person FindPersonById(int id);
+        IQueryable<Email> FindEmailById(int id);
         T Add<T>(T entity) where T : class;
     }
 }
