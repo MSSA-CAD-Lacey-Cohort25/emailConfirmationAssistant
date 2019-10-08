@@ -2,6 +2,8 @@
 using EmailConfirmationService;
 using System.Web.Hosting;
 using System.Web.Mvc;
+using System.Data.Entity;
+using System.Threading.Tasks;
 
 namespace EmailConfirmationServer.Controllers
 {
@@ -24,7 +26,7 @@ namespace EmailConfirmationServer.Controllers
             return View();
         }
 
-        public ActionResult Confirm (int id, string email)
+        public async Task <ActionResult> Confirm (int id, string email)
         {
             
             string path = HostingEnvironment.ApplicationPhysicalPath + "/Files/TestSheet.xlsx";
@@ -33,7 +35,15 @@ namespace EmailConfirmationServer.Controllers
             Spreadsheet spreadsheet = new Spreadsheet(path);
             spreadsheet.getExcelFile();
             spreadsheet.ConfirmEmail(email);
-            var person = context.FindPersonById(id);
+            var person = await context.People.Include(c => c.Emails).SingleAsync(c => c.Id == id);
+            foreach(var e in person.Emails)
+            {
+                if (e.EmailAddress == email)
+                {
+                    e.IsConfirmed = true;
+                }
+            }
+            context.SaveChanges();
             //Track saved emails
 
             return View();

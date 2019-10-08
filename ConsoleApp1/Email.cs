@@ -14,6 +14,11 @@ namespace EmailConfirmationService
 
         public bool IsConfirmed { get; set; }
 
+        public Email()
+        {
+
+        }
+
         public Email(int id, string email)
         {
             Id = id;
