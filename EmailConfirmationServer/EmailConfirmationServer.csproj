@@ -175,13 +175,22 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\ConfirmController.cs" />
+    <Compile Include="Controllers\EmailController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\SpreadsheetController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201910072308105_InitialCreate.cs" />
+    <Compile Include="Migrations\201910072308105_InitialCreate.Designer.cs">
+      <DependentUpon>201910072308105_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201910081526206_emailTable.cs" />
+    <Compile Include="Migrations\201910081526206_emailTable.Designer.cs">
+      <DependentUpon>201910081526206_emailTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\EmailConfirmationContext.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -272,6 +281,14 @@
       <Project>{7bf4df92-f393-4b82-83c4-7d146b9185e7}</Project>
       <Name>EmailConfirmationService</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201910072308105_InitialCreate.resx">
+      <DependentUpon>201910072308105_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201910081526206_emailTable.resx">
+      <DependentUpon>201910081526206_emailTable.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

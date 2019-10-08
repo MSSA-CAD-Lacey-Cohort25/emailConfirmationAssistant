@@ -16,9 +16,16 @@ namespace EmailConfirmationServer.Models
 
         public DbSet<Person> People { get; set; }
 
-        Person IEmailConfirmationContext.FindPersonByEmail(string email)
+        IQueryable<Email> IEmailConfirmationContext.Emails
         {
-            return Set<Person>().Find(email);
+            get { return Emails; }
+        }
+
+        public DbSet<Email> Emails { get; set; }
+
+        Person IEmailConfirmationContext.FindPersonById(int id)
+        {
+            return Set<Person>().Find(id);
         }
 
         void IEmailConfirmationContext.SaveChanges()
@@ -29,6 +36,14 @@ namespace EmailConfirmationServer.Models
         T IEmailConfirmationContext.Add<T>(T entity)
         {
             return Set<T>().Add(entity);
+        }
+
+        IQueryable<Email> IEmailConfirmationContext.FindEmailById(int id)
+        {
+            var emails = from email in Emails
+                         where email.Id == id
+                         select email;
+            return emails;
         }
     }
 }

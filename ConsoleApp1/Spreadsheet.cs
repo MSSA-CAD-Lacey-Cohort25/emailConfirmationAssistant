@@ -98,6 +98,8 @@ namespace EmailConfirmationService
             for (int row = 2; row <= rowCount; row++)
             {
                 Person person = getPerson(worksheet, row);
+
+                person.Id = row - 1;
                 
                 Persons.Add(person);
           
@@ -116,8 +118,8 @@ namespace EmailConfirmationService
 
             person.FirstName = worksheet.Cells[row, FirstColumn].Value;
             person.LastName = worksheet.Cells[row, LastColumn].Value;
-            person.EmailOutlook = worksheet.Cells[row, OutlookColumn].Value;
-            person.EmailStMartins = worksheet.Cells[row, StMartinColumn].Value;
+            person.Emails.Add(new Email(person.Id, worksheet.Cells[row, OutlookColumn].Value));
+            person.Emails.Add(new Email(person.Id, worksheet.Cells[row, StMartinColumn].Value));
 
             return person;
         }
