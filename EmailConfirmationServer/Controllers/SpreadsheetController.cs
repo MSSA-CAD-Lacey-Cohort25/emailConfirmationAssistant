@@ -30,7 +30,8 @@ namespace EmailConfirmationServer.Controllers
         }
         public ActionResult Upload()
         {
-            return View();
+            var people = context.People;
+            return View(people);
         }
         [HttpPost]
         public async Task<ActionResult> Upload(HttpPostedFileBase file)
