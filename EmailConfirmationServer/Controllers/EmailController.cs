@@ -1,5 +1,4 @@
 ﻿using EmailConfirmationServer.Models;
-using EmailConfirmationService;
 using System.Web.Hosting;
 using System.Web.Mvc;
 using System.Data.Entity;

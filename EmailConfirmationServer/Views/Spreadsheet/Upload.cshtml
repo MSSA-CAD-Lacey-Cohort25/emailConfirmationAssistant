@@ -1,4 +1,4 @@
-﻿@model IQueryable<EmailConfirmationService.Person>
+﻿@model IQueryable<EmailConfirmationServer.Models.Person>
 @{
     ViewBag.Title = "Manage Spreadsheet";
 }
@@ -10,7 +10,26 @@
     <input type="file" name="file" id="file" /><br><br>
     <input type="submit" value="Submit" />
     <br><br>
-    
+
 }
-        <h2>@ViewBag.Message</h2>
+<h2>@ViewBag.Message</h2>
+    <table style="width:80%">
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Outlook Email</th>
+            <th>St Martin Email</th>
+        </tr>
+       @foreach (var person in Model)
+       {
+            <tr>
+                <td>@person.FirstName</td>
+                <td>@person.LastName</td>
+                @foreach (var email in person.Emails)
+                {
+                    <td>@email.EmailAddress</td>
+                }
+            </tr>
+       }
+    </table>
 

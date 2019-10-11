@@ -1,5 +1,4 @@
 ﻿using EmailConfirmationServer.Models;
-using EmailConfirmationService;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -8,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using System.Data.Entity;
 
 namespace EmailConfirmationServer.Controllers
 {
@@ -19,10 +19,12 @@ namespace EmailConfirmationServer.Controllers
         {
             context = new EmailConfirmationContext();
         }
+
         public SpreadsheetController(IEmailConfirmationContext Context)
         {
             context = Context;
         }
+
         // GET: Spreadsheet
         public ActionResult Index()
         {
@@ -30,7 +32,8 @@ namespace EmailConfirmationServer.Controllers
         }
         public ActionResult Upload()
         {
-            var people = context.People;
+            var people = context.People.Include(c => c.Emails);
+
             return View(people);
         }
         [HttpPost]
@@ -54,7 +57,7 @@ namespace EmailConfirmationServer.Controllers
                     }
                     context.SaveChanges();
 
-                    EmailConfirmationService.EmailService emailService = new EmailConfirmationService.EmailService(spreadsheet);
+                    var emailService = new Models.EmailService(spreadsheet);
                     await emailService.sendConfirmationEmails();                                                           
                     ViewBag.Message = "File uploaded successfully";
 
