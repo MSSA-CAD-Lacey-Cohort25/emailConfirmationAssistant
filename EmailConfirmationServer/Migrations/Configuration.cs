@@ -10,7 +10,6 @@ namespace EmailConfirmationServer.Migrations
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
-            ContextKey = "EmailConfirmationServer.Models.EmailConfirmationContext";
         }
 
         protected override void Seed(EmailConfirmationServer.Models.EmailConfirmationContext context)

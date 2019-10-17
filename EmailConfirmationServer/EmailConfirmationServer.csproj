@@ -202,13 +202,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201910072308105_InitialCreate.cs" />
-    <Compile Include="Migrations\201910072308105_InitialCreate.Designer.cs">
-      <DependentUpon>201910072308105_InitialCreate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201910081526206_emailTable.cs" />
-    <Compile Include="Migrations\201910081526206_emailTable.Designer.cs">
-      <DependentUpon>201910081526206_emailTable.cs</DependentUpon>
+    <Compile Include="Migrations\201910171914078_Init.cs" />
+    <Compile Include="Migrations\201910171914078_Init.Designer.cs">
+      <DependentUpon>201910171914078_Init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -301,15 +297,12 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201910072308105_InitialCreate.resx">
-      <DependentUpon>201910072308105_InitialCreate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201910081526206_emailTable.resx">
-      <DependentUpon>201910081526206_emailTable.cs</DependentUpon>
-    </EmbeddedResource>
+    <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
-    <WCFMetadata Include="Connected Services\" />
+    <EmbeddedResource Include="Migrations\201910171914078_Init.resx">
+      <DependentUpon>201910171914078_Init.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
