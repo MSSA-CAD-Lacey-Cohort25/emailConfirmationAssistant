@@ -278,6 +278,8 @@
     <Content Include="Views\Email\Index.cshtml" />
     <Content Include="Views\Email\Confirm.cshtml" />
     <Content Include="Views\Spreadsheet\Upload.cshtml" />
+    <Content Include="Views\Shared\_UnconfirmedTablePartial.cshtml" />
+    <Content Include="Views\Shared\_ConfirmedTablePartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

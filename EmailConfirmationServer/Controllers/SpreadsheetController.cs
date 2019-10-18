@@ -73,5 +73,19 @@ namespace EmailConfirmationServer.Controllers
             }
             return View("Upload");
         }
+
+        public ActionResult LoadUnconfirmedTable()
+        {
+            var people = context.People.Include(c => c.Emails);
+
+            return View("_UnconfirmedTablePartial", people);
+        }
+
+        public ActionResult LoadConfirmedTable()
+        {
+            var people = context.People.Include(c => c.Emails);
+
+            return View("_ConfirmedTablePartial", people);
+        }
     }
 }
