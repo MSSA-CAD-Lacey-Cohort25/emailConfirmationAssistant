@@ -1,5 +1,4 @@
 ﻿using EmailConfirmationServer.Models;
-using EmailConfirmationService;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -8,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using System.Data.Entity;
 
 namespace EmailConfirmationServer.Controllers
 {
@@ -19,10 +19,12 @@ namespace EmailConfirmationServer.Controllers
         {
             context = new EmailConfirmationContext();
         }
+
         public SpreadsheetController(IEmailConfirmationContext Context)
         {
             context = Context;
         }
+
         // GET: Spreadsheet
         public ActionResult Index()
         {
@@ -30,7 +32,9 @@ namespace EmailConfirmationServer.Controllers
         }
         public ActionResult Upload()
         {
-            return View();
+            var people = context.People.Include(c => c.Emails);
+
+            return View(people);
         }
         [HttpPost]
         public async Task<ActionResult> Upload(HttpPostedFileBase file)
@@ -44,16 +48,12 @@ namespace EmailConfirmationServer.Controllers
                     Spreadsheet spreadsheet = new Spreadsheet(path);
                     spreadsheet.getExcelFile();            
                     foreach(Person person in spreadsheet.Persons)
-                    {
-                        foreach (Email email in person.Emails)
-                        {
-                            context.Add<Email>(email);
-                        }
+                    {      
                         context.Add<Person>(person);
                     }
                     context.SaveChanges();
 
-                    EmailConfirmationService.EmailService emailService = new EmailConfirmationService.EmailService(spreadsheet);
+                    var emailService = new Models.EmailService(spreadsheet);
                     await emailService.sendConfirmationEmails();                                                           
                     ViewBag.Message = "File uploaded successfully";
 
@@ -68,6 +68,20 @@ namespace EmailConfirmationServer.Controllers
                 ViewBag.Message = "You have not specified a file.";
             }
             return View("Upload");
+        }
+
+        public ActionResult LoadUnconfirmedTable()
+        {
+            var people = context.People.Include(c => c.Emails);
+
+            return View("_UnconfirmedTablePartial", people);
+        }
+
+        public ActionResult LoadConfirmedTable()
+        {
+            var people = context.People.Include(c => c.Emails);
+
+            return View("_ConfirmedTablePartial", people);
         }
     }
 }

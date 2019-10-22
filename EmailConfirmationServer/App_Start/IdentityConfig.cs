@@ -16,6 +16,8 @@ namespace EmailConfirmationServer
 {
     public class EmailService : IIdentityMessageService
     {
+        private Spreadsheet spreadsheet;
+
         public Task SendAsync(IdentityMessage message)
         {
             // Plug in your email service here to send an email.

@@ -1,5 +1,4 @@
-﻿using EmailConfirmationService;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,11 +10,13 @@ namespace EmailConfirmationServer.Models
     {
         IQueryable<Person> People { get; }
         IQueryable<Email> Emails { get; }
-        
-        
+        IQueryable<SheetUpload> Uploads { get; }
+        IQueryable<User> Users { get; }
+
         void SaveChanges();
         Person FindPersonById(int id);
         IQueryable<Email> FindEmailById(int id);
+        User FindUserById(int id);
         T Add<T>(T entity) where T : class;
     }
 }

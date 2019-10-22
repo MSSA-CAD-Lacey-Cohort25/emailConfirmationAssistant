@@ -1,4 +1,4 @@
-﻿
+﻿@model IQueryable<EmailConfirmationServer.Models.Person>
 @{
     ViewBag.Title = "Manage Spreadsheet";
 }
@@ -7,9 +7,40 @@
 @using (Html.BeginForm("Upload", "Spreadsheet", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     <label for="file">Upload File:</label>
-    <input type="file" name="file" id="file" /><br><br>
-    <input type="submit" value="Submit" />
-    <br><br>
-    
+    <input type="file" name="file" id="file" /><br>
+    <input type="submit" value="Submit" /><br>
 }
-        <h2>@ViewBag.Message</h2>
+<h2>@ViewBag.Message</h2>
+
+<div class ="container">
+    <div class="row">
+        <div class="col" id="tableHolder">
+        </div>
+        </div>
+        <div class="row" style="margin-top:10px;">
+            <div>
+                <button class="btn btn-primary" id="unconfirmed">Show Unconfirmed</button>
+                <button class="btn btn-primary" id="confirmed"> Show Confirmed </button>
+            </div>
+        </div>
+</div>
+
+
+
+
+@section Scripts
+{
+    <script>
+        $(document).ready(function(){
+            $("#unconfirmed").click(function () {
+                $("#tableHolder").load('@Url.Action("LoadUnconfirmedTable")')
+                })
+        })
+
+        $(document).ready(function(){
+            $("#confirmed").click(function () {
+                $("#tableHolder").load('@Url.Action("LoadConfirmedTable")')
+                })
+        })
+    </script>
+    }
