@@ -48,11 +48,7 @@ namespace EmailConfirmationServer.Controllers
                     Spreadsheet spreadsheet = new Spreadsheet(path);
                     spreadsheet.getExcelFile();            
                     foreach(Person person in spreadsheet.Persons)
-                    {
-                        foreach (Email email in person.Emails)
-                        {
-                            context.Add<Email>(email);
-                        }
+                    {      
                         context.Add<Person>(person);
                     }
                     context.SaveChanges();

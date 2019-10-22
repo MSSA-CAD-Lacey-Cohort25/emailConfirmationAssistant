@@ -21,11 +21,26 @@ namespace EmailConfirmationServer.Models
         }
 
         public DbSet<Email> Emails { get; set; }
-
+       
         Person IEmailConfirmationContext.FindPersonById(int id)
         {
             return Set<Person>().Find(id);
         }
+
+        IQueryable<SheetUpload> IEmailConfirmationContext.Uploads
+        { 
+            get { return Uploads; }
+        }
+
+        public DbSet<SheetUpload> Uploads { get; set; }
+
+        IQueryable<User> IEmailConfirmationContext.Users
+        {
+            get { return Users; }
+        }
+
+        public DbSet<User> Users { get; set; }
+
 
         void IEmailConfirmationContext.SaveChanges()
         {
@@ -43,6 +58,14 @@ namespace EmailConfirmationServer.Models
                          where email.Id == id
                          select email;
             return emails;
+        }
+
+        User IEmailConfirmationContext.FindUserById(int id)
+        {
+            var user = (from u in Users
+                         where u.Id == id
+                         select u).FirstOrDefault();
+            return user;
         }
     }
 }

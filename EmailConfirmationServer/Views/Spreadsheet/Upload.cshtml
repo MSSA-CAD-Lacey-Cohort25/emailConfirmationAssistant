@@ -12,12 +12,21 @@
 }
 <h2>@ViewBag.Message</h2>
 
-<div id="tableHolder">
-    
+<div class ="container">
+    <div class="row">
+        <div class="col" id="tableHolder">
+        </div>
+        </div>
+        <div class="row" style="margin-top:10px;">
+            <div>
+                <button class="btn btn-primary" id="unconfirmed">Show Unconfirmed</button>
+                <button class="btn btn-primary" id="confirmed"> Show Confirmed </button>
+            </div>
+        </div>
 </div>
 
-<button class="btn btn-primary" id="unconfirmed">Show Unconfirmed</button>
-<button class="btn btn-primary" id="confirmed"> Show Confirmed </button>
+
+
 
 @section Scripts
 {

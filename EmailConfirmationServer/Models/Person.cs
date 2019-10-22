@@ -10,9 +10,7 @@ namespace EmailConfirmationServer.Models
 {
     public class Person
     {
-
-        //Properties
-
+    
         public int Id { get; set; }
 
         public string FirstName { get; set; }
@@ -20,18 +18,6 @@ namespace EmailConfirmationServer.Models
         public string LastName { get; set; }
 
         public List<Email> Emails { get; set; } = new List<Email>();
-        
-        //public Person()
-        //{
-        //    Email = new Dictionary<string, bool>();
-        //}
-
-        //public string EmailStMartins { get; set; }
-        //public bool StMartinConfirm { get; set; }
-
-        //public string EmailOutlook { get; set; }
-        //public bool OutlookConfirm { get; set; }
-
 
         public override string ToString()
         {
