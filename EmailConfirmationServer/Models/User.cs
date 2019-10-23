@@ -7,7 +7,7 @@ namespace EmailConfirmationServer.Models
 {
     public class User
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
 
         public List<SheetUpload> Uploads { get; set; } = new List<SheetUpload>();
     }
