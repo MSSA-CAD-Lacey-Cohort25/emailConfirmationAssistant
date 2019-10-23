@@ -34,27 +34,46 @@ namespace EmailConfirmationServer.Controllers
         public ActionResult Upload()
         {
             string userId = User.Identity.GetUserId();
+            var user = context.FindUserById(userId);
 
-            var user = context.FindUserById(id);
             var people = context.People.Include(c => c.Emails);
 
+            //To do: return uploads instead of a list of people
             return View(people);
         }
         [HttpPost]
         public async Task<ActionResult> Upload(HttpPostedFileBase file)
         {
+            string userId = User.Identity.GetUserId();
+            var user = context.FindUserById(userId);
+
+           
+
             if (file != null && file.ContentLength > 0)
             {
                 try
                 {
                     string path = Path.Combine(Server.MapPath("~/Files"), Path.GetFileName(file.FileName));
-                    file.SaveAs(path);                    
+                    file.SaveAs(path);
+
                     Spreadsheet spreadsheet = new Spreadsheet(path);
-                    spreadsheet.getExcelFile();            
-                    foreach(Person person in spreadsheet.Persons)
-                    {      
-                        context.Add<Person>(person);
+                    spreadsheet.getExcelFile();
+
+                    int sheetId = user.Uploads.Count() + 1;
+                    SheetUpload upload = new SheetUpload(sheetId, userId);
+                    upload.People = spreadsheet.Persons;
+
+                    if (user == null)
+                    {
+                        user = new User(userId);
+                        user.Uploads.Add(upload);
+                        context.Add<User>(user);
                     }
+                    else
+                    {
+                        context.Add<SheetUpload>(upload);
+                    }
+                    
                     context.SaveChanges();
 
                     var emailService = new Models.EmailService(spreadsheet);
