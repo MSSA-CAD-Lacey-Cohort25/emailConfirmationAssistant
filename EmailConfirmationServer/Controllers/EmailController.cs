@@ -12,8 +12,9 @@ namespace EmailConfirmationServer.Controllers
 
         public EmailController()
         {
-            context = new EmailConfirmationContext();
+            context = ApplicationDbContext.Create();
         }
+
         public EmailController(IEmailConfirmationContext Context)
         {
             context = Context;

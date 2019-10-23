@@ -18,7 +18,7 @@ namespace EmailConfirmationServer.Controllers
 
         public SpreadsheetController()
         {
-            context = new EmailConfirmationContext();
+            context = ApplicationDbContext.Create();
         }
 
         public SpreadsheetController(IEmailConfirmationContext Context)
