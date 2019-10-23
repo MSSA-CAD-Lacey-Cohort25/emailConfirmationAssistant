@@ -60,7 +60,7 @@ namespace EmailConfirmationServer.Models
             return emails;
         }
 
-        User IEmailConfirmationContext.FindUserById(int id)
+        User IEmailConfirmationContext.FindUserById(string id)
         {
             var user = (from u in Users
                          where u.Id == id
