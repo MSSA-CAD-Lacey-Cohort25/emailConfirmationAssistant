@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using System.Data.Entity;
+using Microsoft.AspNet.Identity;
 
 namespace EmailConfirmationServer.Controllers
 {
@@ -32,6 +33,9 @@ namespace EmailConfirmationServer.Controllers
         }
         public ActionResult Upload()
         {
+            string userId = User.Identity.GetUserId();
+
+            var user = context.FindUserById(id);
             var people = context.People.Include(c => c.Emails);
 
             return View(people);
