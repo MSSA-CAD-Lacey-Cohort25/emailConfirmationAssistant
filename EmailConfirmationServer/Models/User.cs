@@ -16,5 +16,11 @@ namespace EmailConfirmationServer.Models
             Id = id;
             Uploads = new List<SheetUpload>(); 
         }
+
+        public User()
+        {
+            Id = null;
+            Uploads = null;
+        }
     }
 }

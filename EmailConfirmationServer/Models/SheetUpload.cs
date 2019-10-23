@@ -20,5 +20,12 @@ namespace EmailConfirmationServer.Models
             UserId = userId; 
             People = null;
         }
+
+        public SheetUpload()
+        {
+            Id = 0;
+            UserId = null;
+            People = null;
+        }
     }
 }
