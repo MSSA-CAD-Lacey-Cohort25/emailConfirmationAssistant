@@ -1,57 +1,57 @@
-﻿
-@model IQueryable<EmailConfirmationServer.Models.Person>
+﻿@using EmailConfirmationServer.Models
+@model IQueryable<Person>
 @{
     ViewBag.Title = "Manage Spreadsheet";
     Layout = null;
 }
 
 
-        <h2>Unconfirmed Emails</h2>
-        <table style="width:50%; float: left">
-            <thead class="aligntop">
-                <tr>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>Outlook Email</th>
-                    <th>St Martin Email</th>
-                </tr>
-            </thead>
-            <tbody>
-                @if (Model != null)
+<h2>Unconfirmed Emails</h2>
+<table style="width:50%; float: left">
+    <thead class="aligntop">
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Outlook Email</th>
+            <th>St Martin Email</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null)
+        {
+            foreach (var person in Model)
+            {
+
+                bool bothEmailsConfirmed = true;
+
+                foreach (var email in person.Emails)
                 {
-                    foreach (var person in Model)
+                    if (!email.IsConfirmed)
                     {
-
-                        bool bothEmailsConfirmed = true;
-
-                        foreach (var email in person.Emails)
-                        {
-                            if (!email.IsConfirmed)
-                            {
-                                bothEmailsConfirmed = false;
-
-                            }
-                        }
-                        if (bothEmailsConfirmed == false)
-                        {
-                            <tr>
-                                <td>@person.FirstName</td>
-                                <td>@person.LastName</td>
-
-                                @foreach (var email in person.Emails)
-                                {
-                                    if (!email.IsConfirmed)
-                                    {
-
-                                        <td>@email.EmailAddress</td>
-                                    }
-                                }
-                            </tr>
-                        }
+                        bothEmailsConfirmed = false;
 
                     }
                 }
-            </tbody>
-        </table>
+                if (bothEmailsConfirmed == false)
+                {
+                    <tr>
+                        <td>@person.FirstName</td>
+                        <td>@person.LastName</td>
+
+                        @foreach (var email in person.Emails)
+                        {
+                            if (!email.IsConfirmed)
+                            {
+
+                                <td>@email.EmailAddress</td>
+                            }
+                        }
+                    </tr>
+                }
+
+            }
+        }
+    </tbody>
+</table>
 
 

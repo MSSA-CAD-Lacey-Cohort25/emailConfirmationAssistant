@@ -43,16 +43,20 @@ namespace EmailConfirmationServer.Controllers
             {
                 try
                 {
+                    //saves the uploaded spreadsheet, reads the sheet, and adds each person to the database
                     string path = Path.Combine(Server.MapPath("~/Files"), Path.GetFileName(file.FileName));
                     file.SaveAs(path);                    
                     Spreadsheet spreadsheet = new Spreadsheet(path);
-                    spreadsheet.getExcelFile();            
+                    spreadsheet.getExcelFile();  
+                    
+                    //adds each person object to the database
                     foreach(Person person in spreadsheet.Persons)
                     {      
                         context.Add<Person>(person);
                     }
                     context.SaveChanges();
 
+                    //sends the emails from the file
                     var emailService = new Models.EmailService(spreadsheet);
                     await emailService.sendConfirmationEmails();                                                           
                     ViewBag.Message = "File uploaded successfully";
@@ -70,18 +74,24 @@ namespace EmailConfirmationServer.Controllers
             return View("Upload");
         }
 
+       
         public ActionResult LoadUnconfirmedTable()
         {
-            var people = context.People.Include(c => c.Emails);
+            //loads all person objects with emails from the database
+            var peopleWithEmails = context.People.Include(person => person.Emails);
 
-            return View("_UnconfirmedTablePartial", people);
+            //separates unconfirmed emails and sends them into partial view
+            return View("_UnconfirmedTablePartial", peopleWithEmails);
         }
 
+        
         public ActionResult LoadConfirmedTable()
         {
-            var people = context.People.Include(c => c.Emails);
+            //loads all person objects with emails from the database
+            var peopleWithEmails = context.People.Include(person => person.Emails);
 
-            return View("_ConfirmedTablePartial", people);
+            //separates confirmed emails and sends them into partial view
+            return View("_ConfirmedTablePartial", peopleWithEmails);
         }
     }
 }
