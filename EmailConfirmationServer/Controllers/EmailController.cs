@@ -27,8 +27,7 @@ namespace EmailConfirmationServer.Controllers
         }
 
         public async Task <ActionResult> Confirm (int id, string email)
-        {
-            
+        {            
             string path = HostingEnvironment.ApplicationPhysicalPath + "/Files/TestSheet.xlsx";
 
             //Calls the constructor.

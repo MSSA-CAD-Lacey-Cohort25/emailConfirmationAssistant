@@ -12,6 +12,7 @@ using Microsoft.AspNet.Identity;
 
 namespace EmailConfirmationServer.Controllers
 {
+    [Authorize]
     public class SpreadsheetController : Controller
     {
         private IEmailConfirmationContext context;
@@ -46,8 +47,6 @@ namespace EmailConfirmationServer.Controllers
         {
             string userId = User.Identity.GetUserId();
             var user = context.FindUserById(userId);
-
-           
 
             if (file != null && file.ContentLength > 0)
             {
