@@ -202,13 +202,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201910232252244_InitialCreate.cs" />
-    <Compile Include="Migrations\201910232252244_InitialCreate.Designer.cs">
-      <DependentUpon>201910232252244_InitialCreate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201910232322484_Initial.cs" />
-    <Compile Include="Migrations\201910232322484_Initial.Designer.cs">
-      <DependentUpon>201910232322484_Initial.cs</DependentUpon>
+    <Compile Include="Migrations\201911020107258_Initial.cs" />
+    <Compile Include="Migrations\201911020107258_Initial.Designer.cs">
+      <DependentUpon>201911020107258_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -307,11 +303,8 @@
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201910232252244_InitialCreate.resx">
-      <DependentUpon>201910232252244_InitialCreate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201910232322484_Initial.resx">
-      <DependentUpon>201910232322484_Initial.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201911020107258_Initial.resx">
+      <DependentUpon>201911020107258_Initial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

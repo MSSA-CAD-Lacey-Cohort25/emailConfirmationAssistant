@@ -48,6 +48,7 @@ namespace EmailConfirmationServer.Controllers
             string userId = User.Identity.GetUserId();
             var user = context.FindUserById(userId);
 
+          
             if (file != null && file.ContentLength > 0)
             {
                 try
@@ -57,22 +58,20 @@ namespace EmailConfirmationServer.Controllers
 
                     Spreadsheet spreadsheet = new Spreadsheet(path);
                     spreadsheet.getExcelFile();
-
-                    int sheetId = user.Uploads.Count() + 1;
-                    SheetUpload upload = new SheetUpload(sheetId, userId);
-                    upload.People = spreadsheet.Persons;
+            
 
                     if (user == null)
                     {
                         user = new User(userId);
-                        user.Uploads.Add(upload);
+                        addUploadToUser(user, spreadsheet);
                         context.Add<User>(user);
                     }
                     else
                     {
+                        var upload = createNewUpload(user, spreadsheet);
                         context.Add<SheetUpload>(upload);
                     }
-                    
+
                     context.SaveChanges();
 
                     var emailService = new Models.EmailService(spreadsheet);
@@ -90,6 +89,19 @@ namespace EmailConfirmationServer.Controllers
                 ViewBag.Message = "You have not specified a file.";
             }
             return View("Upload");
+        }
+
+        private void addUploadToUser(User user, Spreadsheet sheet)
+        {                        
+            user.Uploads.Add(createNewUpload(user, sheet));                           
+        }
+
+        private SheetUpload createNewUpload(User user, Spreadsheet sheet)
+        {
+            int sheetId = user.Uploads.Count() + 1;
+            SheetUpload upload = new SheetUpload(sheetId, user.Id);
+            upload.People = sheet.Persons;
+            return upload;
         }
 
         public ActionResult LoadUnconfirmedTable()
