@@ -85,9 +85,20 @@ namespace EmailConfirmationServer.Models
 
         User IEmailConfirmationContext.FindUserById(string id)
         {
-            var user = (from u in Users
-                        where u.Id == id
-                        select u).FirstOrDefault();
+            //var user = (from u in Users
+            //            where u.Id == id
+            //            select u).FirstOrDefault();
+
+            //var user = Users.Find(id);
+            //this.Entry(user).Collection(s => s.Uploads).Load();
+
+            var user = Users
+                .Where(u => u.Id == id)
+                .Include(u => u.Uploads
+                    .Select(s => s.People
+                    .Select(p => p.Emails)))
+                .FirstOrDefault();
+
             return user;
         }
     }
