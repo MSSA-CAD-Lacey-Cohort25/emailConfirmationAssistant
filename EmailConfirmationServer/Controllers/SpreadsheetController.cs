@@ -98,6 +98,12 @@ namespace EmailConfirmationServer.Controllers
 
         private SheetUpload createNewUpload(User user, Spreadsheet sheet)
         {
+            //This means entity framework could not find related uplaods in the DB
+            if( user.Uploads == null)
+            {
+                user.Uploads = new List<SheetUpload>();
+            }
+
             int sheetId = user.Uploads.Count() + 1;
             SheetUpload upload = new SheetUpload(sheetId, user.Id);
             upload.People = sheet.Persons;
