@@ -12,8 +12,9 @@ namespace EmailConfirmationServer.Controllers
 
         public EmailController()
         {
-            context = new EmailConfirmationContext();
+            context = ApplicationDbContext.Create();            
         }
+
         public EmailController(IEmailConfirmationContext Context)
         {
             context = Context;
@@ -26,8 +27,7 @@ namespace EmailConfirmationServer.Controllers
         }
 
         public async Task <ActionResult> Confirm (int id, string email)
-        {
-            
+        {            
             string path = HostingEnvironment.ApplicationPhysicalPath + "/Files/TestSheet.xlsx";
 
             //Calls the constructor.

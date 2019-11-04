@@ -8,16 +8,18 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using System.Data.Entity;
+using Microsoft.AspNet.Identity;
 
 namespace EmailConfirmationServer.Controllers
 {
+    [Authorize]
     public class SpreadsheetController : Controller
     {
         private IEmailConfirmationContext context;
 
         public SpreadsheetController()
         {
-            context = new EmailConfirmationContext();
+            context = ApplicationDbContext.Create();
         }
 
         public SpreadsheetController(IEmailConfirmationContext Context)
@@ -32,25 +34,44 @@ namespace EmailConfirmationServer.Controllers
         }
         public ActionResult Upload()
         {
+            string userId = User.Identity.GetUserId();
+            var user = context.FindUserById(userId);
+
             var people = context.People.Include(c => c.Emails);
 
+            //To do: return uploads instead of a list of people
             return View(people);
         }
         [HttpPost]
         public async Task<ActionResult> Upload(HttpPostedFileBase file)
         {
+            string userId = User.Identity.GetUserId();
+            var user = context.FindUserById(userId);
+
+          
             if (file != null && file.ContentLength > 0)
             {
                 try
                 {
                     string path = Path.Combine(Server.MapPath("~/Files"), Path.GetFileName(file.FileName));
-                    file.SaveAs(path);                    
+                    file.SaveAs(path);
+
                     Spreadsheet spreadsheet = new Spreadsheet(path);
-                    spreadsheet.getExcelFile();            
-                    foreach(Person person in spreadsheet.Persons)
-                    {      
-                        context.Add<Person>(person);
+                    spreadsheet.getExcelFile();
+            
+
+                    if (user == null)
+                    {
+                        user = new User(userId);
+                        addUploadToUser(user, spreadsheet);
+                        context.Add<User>(user);
                     }
+                    else
+                    {
+                        var upload = createNewUpload(user, spreadsheet);
+                        context.Add<SheetUpload>(upload);
+                    }
+
                     context.SaveChanges();
 
                     var emailService = new Models.EmailService(spreadsheet);
@@ -68,6 +89,25 @@ namespace EmailConfirmationServer.Controllers
                 ViewBag.Message = "You have not specified a file.";
             }
             return View("Upload");
+        }
+
+        private void addUploadToUser(User user, Spreadsheet sheet)
+        {                        
+            user.Uploads.Add(createNewUpload(user, sheet));                           
+        }
+
+        private SheetUpload createNewUpload(User user, Spreadsheet sheet)
+        {
+            //This means entity framework could not find related uplaods in the DB
+            if( user.Uploads == null)
+            {
+                user.Uploads = new List<SheetUpload>();
+            }
+
+            int sheetId = user.Uploads.Count() + 1;
+            SheetUpload upload = new SheetUpload(sheetId, user.Id);
+            upload.People = sheet.Persons;
+            return upload;
         }
 
         public ActionResult LoadUnconfirmedTable()

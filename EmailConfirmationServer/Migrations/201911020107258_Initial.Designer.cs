@@ -13,7 +13,7 @@ namespace EmailConfirmationServer.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201910222212113_Initial"; }
+            get { return "201911020107258_Initial"; }
         }
         
         string IMigrationMetadata.Source
