@@ -202,9 +202,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201910222212113_Initial.cs" />
-    <Compile Include="Migrations\201910222212113_Initial.Designer.cs">
-      <DependentUpon>201910222212113_Initial.cs</DependentUpon>
+    <Compile Include="Migrations\201911042112284_initial.cs" />
+    <Compile Include="Migrations\201911042112284_initial.Designer.cs">
+      <DependentUpon>201911042112284_initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -287,9 +287,6 @@
     <Content Include="Views\Shared\_ConfirmedTablePartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
@@ -306,8 +303,11 @@
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201910222212113_Initial.resx">
-      <DependentUpon>201910222212113_Initial.cs</DependentUpon>
+    <Folder Include="App_Data\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201911042112284_initial.resx">
+      <DependentUpon>201911042112284_initial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
