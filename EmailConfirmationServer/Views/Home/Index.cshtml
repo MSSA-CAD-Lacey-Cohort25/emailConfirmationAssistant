@@ -2,26 +2,32 @@
     ViewBag.Title = "Home Page";
 }
 
-<div class="jumbotron">
-    <h1>Email Confirmation Service</h1>
-    <p class="lead">This website was created to streamline the in-proccessing of new MSSA students!</p>
-    <p><a href="http://localhost:57296/Spreadsheet/Upload" class="btn btn-primary btn-lg">Start Uploading &raquo;</a></p>
-</div>
+    <div class="jumbotron" style="background-image: url('../Files/JumbotronImg.jpg'); background-size: cover">
+        <h1>Email Confirmation Service</h1>
+        <p class="lead">Streamline the in-proccessing of new MSSA students!</p>
+        
+        <p>
+            After uploading an excel file, the service will scan it and send an email that your recipients can use to confirm their emails.
+            You can then log on to see who has and has not confirmed their emails.
+            <br />   
+    </div>
 
 <div class="row">
     <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            Welcome to the wonderful world of email confirmation! After uploading a template, the service will send an email that your recipients can use to verify their emails.
-        </p>
+        
+            <h2>How to use the service</h2>
+        
         <ol>
-            <li>Format spreadsheet</li>
+            <li>Login or register</li>
+            <li>Add names and emails to a Microsoft Excel spreadsheet in the same format as the image on this page</li>
             <li>Upload spreadsheet</li>
-            <li>Emails will send automatically</li>
-            <li>As participants confirm, the "My Spreadsheets" page will update</li>
+            <li>Emails will send to your recipients automatically</li>
+            <li>As participants confirm, your "My Spreadsheets" page will update</li>
         </ol>
+        <p><a href="http://localhost:57296/Spreadsheet/Upload" class="btn btn-primary btn-lg" style="background-color: #1f6c42;">Log In</a></p>
+        <p><a href="http://localhost:57296/Spreadsheet/Upload" class="btn btn-primary btn-lg" style="background-color: #1f6c42;">Register</a></p>
     </div>
     <div class="col-md-8">
-        <img src="~/Files/Picture.PNG" class="img-responsive"/>
+        <img src="~/Files/excelSheetPhoto.jpg" class="img-responsive"/>
     </div>
 </div>
