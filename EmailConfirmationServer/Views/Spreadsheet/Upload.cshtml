@@ -7,7 +7,7 @@
 <div class="container-fluid">
     <div class="row">
         <nav class="col-md-2 d-none d-md-block bg-light sidebar">
-            <div class="sidebar-sticky">                
+            <div class="sidebar-sticky">
                 <h4 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
                     <span>Saved Spreadsheets</span>
                     <a class="d-flex align-items-center text-muted" href="#">
@@ -17,18 +17,18 @@
                 <ul class="nav flex-column mb-2">
                     @foreach (SheetUpload sheet in Model.Uploads)
                     {
-                    <li class="nav-item">
-                        <a class="nav-link" onclick="loadConfirmedSpreadsheet()" href="#" id=@sheet.Id>                            
-                            Sheet: @sheet.Id
-                        </a>
-                    </li>
+                        <li class="nav-item">
+                            <a class="nav-link" onclick="loadConfirmedSpreadsheet()" href="#" id=@sheet.Id>
+                                Sheet: @sheet.Id
+                            </a>
+                        </li>
                     }
                 </ul>
             </div>
         </nav>
 
-        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">            
-            <h2>Please upload your spreadsheet</h2>
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+            <h2 id="title">Please upload your spreadsheet</h2>
             @*Spreadsheet refers to spreadsheetController and Upload is the action method*@
             @using (Html.BeginForm("Upload", "Spreadsheet", FormMethod.Post, new { enctype = "multipart/form-data" }))
             {
@@ -61,25 +61,38 @@
 {
     <script>
         //this jquery handles the show unconfirmed button event
-        $(document).ready(function(){
+        $(document).ready(function () {
+            var uploadId = $(".nav-link active").id
             $("#unconfirmed").click(function () {
-                $("#tableHolder").load('@Url.Action("LoadUnconfirmedTable")')
+                $("#tableHolder").load('@Url.Action("LoadUnconfirmedSpreadsheet")', { id: uploadId })
                 })
         })
 
         //this jquery handles the show confirmed button event
-        $(document).ready(function(){
+        $(document).ready(function () {            
             $("#confirmed").click(function () {
-                $("#tableHolder").load('@Url.Action("LoadConfirmedTable")')
+                var uploadId = $(".nav-link active").id
+                $("#tableHolder").load('@Url.Action("LoadConfirmedSpreadsheet")', { id: uploadId })
                 })
         })
 
         //this jquery handles the show confirmed button event
         var loadConfirmedSpreadsheet = function () {
             $(document).ready(function () {
-                $(".nav-link").click(function () {
+                $(".nav-link").click(function () {                    
+
+                    $(".nav-link").removeClass("active")
+                    $(this).addClass("active")
+                    
                     var uploadId = this.id
-                    $("#tableHolder").load('@Url.Action("LoadConfirmedSpreadsheet")', { id: uploadId })
+                     
+                    console.log("test")               
+                    $("#tableHolder").load('@Url.Action("LoadUnConfirmedSpreadsheet")', { id: uploadId }, function (response, status, http) {
+                        console.log(status + ":")
+                        console.log(http.status)
+                        console.log(http.statusText)
+
+                    })
                 })
             })
         }

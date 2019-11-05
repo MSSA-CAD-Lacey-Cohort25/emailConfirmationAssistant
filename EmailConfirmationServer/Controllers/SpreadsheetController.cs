@@ -141,7 +141,7 @@ namespace EmailConfirmationServer.Controllers
                          where sheetUpload.Id == id
                          select sheetUpload).FirstOrDefault();
 
-            var people = upload.People;
+            var people = upload.People.AsQueryable();
 
             return View("_UnconfirmedTablePartial", people);
         }
@@ -155,7 +155,7 @@ namespace EmailConfirmationServer.Controllers
                           where sheetUpload.Id == id
                           select sheetUpload).FirstOrDefault();
 
-            var people = upload.People;
+            var people = upload.People.AsQueryable();
 
             return View("_ConfirmedTablePartial", people);
         }
