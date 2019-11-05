@@ -8,16 +8,15 @@
     @Scripts.Render("~/bundles/modernizr")
 
 </head>
-<body style="background-color: lightskyblue; color: white;"> @*inline css*@
-    <div class="navbar navbar-inverse navbar-fixed-top" style="background-color: #1f6c42">
+<body style="background-color: #dee7ff; color: black;"> 
+    <div class="navbar navbar-inverse navbar-fixed-top" style="background-color: #288a52" @*#1f6c42*@">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("=^..^=", "Index", "Home", new { area = "" }, new { @class = "navbar-brand", style="color: white;" })
+                </button>       
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
@@ -30,7 +29,7 @@
     </div>
     <div class="container body-content">
         @RenderBody()
-        <hr />
+        <hr style="border-color: #1f6c42"/>
         
         <footer style="color: black">
             <p>&copy; @DateTime.Now.Year - Scaffolders Group</p>
