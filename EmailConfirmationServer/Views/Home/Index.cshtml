@@ -2,7 +2,7 @@
     ViewBag.Title = "Home Page";
 }
 
-    <div class="jumbotron" style="background-image: url('../Files/JumbotronImg.jpg'); background-size: cover">
+    <div class="jumbotron" style="background-image: url('../Files/JumbotronImg.jpg'); background-size: cover; color: white">
         <h1>Email Confirmation Service</h1>
         <p class="lead">Streamline the in-proccessing of new MSSA students!</p>
         
@@ -24,8 +24,13 @@
             <li>Emails will send to your recipients automatically</li>
             <li>As participants confirm, your "My Spreadsheets" page will update</li>
         </ol>
-        <p><a href="http://localhost:57296/Spreadsheet/Upload" class="btn btn-primary btn-lg" style="background-color: #1f6c42;">Log In</a></p>
-        <p><a href="http://localhost:57296/Spreadsheet/Upload" class="btn btn-primary btn-lg" style="background-color: #1f6c42;">Register</a></p>
+        <div class="container">
+            <div class="row">
+                <p class="col-sm-1"><a href=@Url.Action("Register", "Account") class="btn btn-primary btn-lg" style="background-color: #1f6c42;">Register</a></p>
+                <p class="col-sm-1" style="padding-left: 30px"><a href=@Url.Action("Login", "Account") class="btn btn-primary btn-lg" style="background-color: #1f6c42;">Log In</a></p>
+            </div>
+        </div>
+        
     </div>
     <div class="col-md-8">
         <img src="~/Files/excelSheetPhoto.jpg" class="img-responsive"/>

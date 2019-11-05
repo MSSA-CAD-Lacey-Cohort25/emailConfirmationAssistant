@@ -6,9 +6,9 @@
 /*! normalize.css v3.0.3 | MIT License | github.com/necolas/normalize.css */
 
 html {
-  font-family: sans-serif;
-  -webkit-text-size-adjust: 100%;
-      -ms-text-size-adjust: 100%;
+    font-family: sans-serif;
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
 }
 body {
     margin: 0;
@@ -44,6 +44,7 @@ template {
   display: none;
 }
 a {
+  
   background-color: transparent;
 }
 a:active,
@@ -95,6 +96,7 @@ figure {
   margin: 1em 40px;
 }
 hr {
+   
   height: 0;
   -webkit-box-sizing: content-box;
      -moz-box-sizing: content-box;
@@ -1100,7 +1102,7 @@ textarea {
   line-height: inherit;
 }
 a {
-  color: #337ab7;
+  color: black;
   text-decoration: none;
 }
 a:hover,
@@ -4981,7 +4983,9 @@ a.badge:focus {
 .container-fluid .jumbotron {
   padding-right: 15px;
   padding-left: 15px;
-  border-radius: 6px;
+  border-bottom-left-radius: 30px;
+  border-bottom-right-radius: 30px;
+  /*border-radius: 0px;*/
 }
 .jumbotron .container {
   max-width: 100%;
