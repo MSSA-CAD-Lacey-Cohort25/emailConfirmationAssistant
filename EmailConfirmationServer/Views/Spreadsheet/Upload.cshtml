@@ -69,9 +69,9 @@
         })
 
         //this jquery handles the show confirmed button event
-        $(document).ready(function () {            
-            $("#confirmed").click(function () {
-                var uploadId = $(".nav-link active").id
+        $(document).ready(function () {    
+            var uploadId = $(".nav-link active").id
+            $("#confirmed").click(function () {                
                 $("#tableHolder").load('@Url.Action("LoadConfirmedSpreadsheet")', { id: uploadId })
                 })
         })
