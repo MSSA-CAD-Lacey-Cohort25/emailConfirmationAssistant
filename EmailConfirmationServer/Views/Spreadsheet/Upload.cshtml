@@ -1,42 +1,42 @@
-﻿@model IQueryable<EmailConfirmationServer.Models.Person>
-@{
+﻿@{
     ViewBag.Title = "Manage Spreadsheet";
 }
 
 <h2>Please upload your spreadsheet</h2>
+@*Spreadsheet refers to spreadsheetController and Upload is the action method*@
 @using (Html.BeginForm("Upload", "Spreadsheet", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     <label for="file">Upload File:</label>
     <input type="file" name="file" id="file" /><br>
     <input type="submit" value="Submit" /><br>
 }
+
 <h2>@ViewBag.Message</h2>
 
 <div class ="container">
     <div class="row">
         <div class="col" id="tableHolder">
         </div>
+    </div>
+    <div class="row" style="margin-top:10px;">
+        <div>
+            <button class="btn btn-primary" id="unconfirmed">Show Unconfirmed</button>
+            <button class="btn btn-primary" id="confirmed"> Show Confirmed </button>
         </div>
-        <div class="row" style="margin-top:10px;">
-            <div>
-                <button class="btn btn-primary" id="unconfirmed">Show Unconfirmed</button>
-                <button class="btn btn-primary" id="confirmed"> Show Confirmed </button>
-            </div>
-        </div>
+    </div>
 </div>
-
-
-
 
 @section Scripts
 {
     <script>
+        //this jquery handles the show unconfirmed button event
         $(document).ready(function(){
             $("#unconfirmed").click(function () {
                 $("#tableHolder").load('@Url.Action("LoadUnconfirmedTable")')
                 })
         })
 
+        //this jquery handles the show confirmed button event
         $(document).ready(function(){
             $("#confirmed").click(function () {
                 $("#tableHolder").load('@Url.Action("LoadConfirmedTable")')

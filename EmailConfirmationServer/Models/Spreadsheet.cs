@@ -9,6 +9,7 @@ using Excel = Microsoft.Office.Interop.Excel;
 
 namespace EmailConfirmationServer.Models
 {
+    //this class does all the work for reading the spreadsheet after it is uploaded
     public class Spreadsheet
     {
         public List<Person> Persons { get; set; }
