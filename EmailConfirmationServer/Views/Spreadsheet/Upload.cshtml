@@ -1,46 +1,92 @@
 ﻿@{
     ViewBag.Title = "Manage Spreadsheet";
 }
+  
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+                <div class="sidebar-sticky">
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#">
+                                <span data-feather="home"></span>
+                                Dashboard <span class="sr-only">(current)</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <span data-feather="file"></span>
+                                Orders
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <span data-feather="shopping-cart"></span>
+                                Products
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <span data-feather="users"></span>
+                                Customers
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <span data-feather="bar-chart-2"></span>
+                                Reports
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <span data-feather="layers"></span>
+                                Integrations
+                            </a>
+                        </li>
+                    </ul>
 
-<h2>Please upload your spreadsheet</h2>
-@*Spreadsheet refers to spreadsheetController and Upload is the action method*@
-@using (Html.BeginForm("Upload", "Spreadsheet", FormMethod.Post, new { enctype = "multipart/form-data" }))
-{
-    <label for="file">Upload File:</label>
-    <input type="file" name="file" id="file" /><br>
-    <input type="submit" value="Submit" /><br>
-}
+                    <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                        <span>Saved reports</span>
+                        <a class="d-flex align-items-center text-muted" href="#">
+                            <span data-feather="plus-circle"></span>
+                        </a>
+                    </h6>
+                    <ul class="nav flex-column mb-2">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <span data-feather="file-text"></span>
+                                Current month
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <span data-feather="file-text"></span>
+                                Last quarter
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <span data-feather="file-text"></span>
+                                Social engagement
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <span data-feather="file-text"></span>
+                                Year-end sale
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
 
-<h2>@ViewBag.Message</h2>
-
-<div class ="container">
-    <div class="row">
-        <div class="col" id="tableHolder">
+            <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <h1 class="h2">Dashboard</h1>
+                
+                </div>               
+                <h2>Section title</h2>
+              
+            </main>
         </div>
     </div>
-    <div class="row" style="margin-top:10px;">
-        <div>
-            <button class="btn btn-primary" id="unconfirmed">Show Unconfirmed</button>
-            <button class="btn btn-primary" id="confirmed"> Show Confirmed </button>
-        </div>
-    </div>
-</div>
-
-@section Scripts
-{
-    <script>
-        //this jquery handles the show unconfirmed button event
-        $(document).ready(function(){
-            $("#unconfirmed").click(function () {
-                $("#tableHolder").load('@Url.Action("LoadUnconfirmedTable")')
-                })
-        })
-
-        //this jquery handles the show confirmed button event
-        $(document).ready(function(){
-            $("#confirmed").click(function () {
-                $("#tableHolder").load('@Url.Action("LoadConfirmedTable")')
-                })
-        })
-    </script>
-    }
