@@ -37,10 +37,18 @@ namespace EmailConfirmationServer.Controllers
             string userId = User.Identity.GetUserId();
             var user = context.FindUserById(userId);
 
-            var people = context.People.Include(c => c.Emails);
+            if(user == null)
+            {
+                user = new User(userId);
+            }
+
+            if (user.Uploads == null)
+            {
+                user.Uploads = new List<SheetUpload>();
+            }
 
             //To do: return uploads instead of a list of people
-            return View(people);
+            return View(user);
         }
         [HttpPost]
         public async Task<ActionResult> Upload(HttpPostedFileBase file)
@@ -88,7 +96,7 @@ namespace EmailConfirmationServer.Controllers
             {
                 ViewBag.Message = "You have not specified a file.";
             }
-            return View("Upload");
+            return View("Upload", user);
         }
 
         private void addUploadToUser(User user, Spreadsheet sheet)
@@ -120,6 +128,34 @@ namespace EmailConfirmationServer.Controllers
         public ActionResult LoadConfirmedTable()
         {
             var people = context.People.Include(c => c.Emails);
+
+            return View("_ConfirmedTablePartial", people);
+        }
+
+        public ActionResult LoadUnconfirmedSpreadsheet(int id)
+        {
+            string userId = User.Identity.GetUserId();
+            var user = context.FindUserById(userId);
+
+            var upload = (from sheetUpload in user.Uploads
+                         where sheetUpload.Id == id
+                         select sheetUpload).FirstOrDefault();
+
+            var people = upload.People;
+
+            return View("_UnconfirmedTablePartial", people);
+        }
+
+        public ActionResult LoadConfirmedSpreadsheet(int id)
+        {
+            string userId = User.Identity.GetUserId();
+            var user = context.FindUserById(userId);
+
+            var upload = (from sheetUpload in user.Uploads
+                          where sheetUpload.Id == id
+                          select sheetUpload).FirstOrDefault();
+
+            var people = upload.People;
 
             return View("_ConfirmedTablePartial", people);
         }

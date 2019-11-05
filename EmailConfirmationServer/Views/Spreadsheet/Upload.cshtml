@@ -1,46 +1,87 @@
-﻿@model IQueryable<EmailConfirmationServer.Models.Person>
+﻿@using EmailConfirmationServer.Models
+@model User
 @{
     ViewBag.Title = "Manage Spreadsheet";
 }
 
-<h2>Please upload your spreadsheet</h2>
-@using (Html.BeginForm("Upload", "Spreadsheet", FormMethod.Post, new { enctype = "multipart/form-data" }))
-{
-    <label for="file">Upload File:</label>
-    <input type="file" name="file" id="file" /><br>
-    <input type="submit" value="Submit" /><br>
-}
-<h2>@ViewBag.Message</h2>
-
-<div class ="container">
+<div class="container-fluid">
     <div class="row">
-        <div class="col" id="tableHolder">
-        </div>
-        </div>
-        <div class="row" style="margin-top:10px;">
-            <div>
-                <button class="btn btn-primary" id="unconfirmed">Show Unconfirmed</button>
-                <button class="btn btn-primary" id="confirmed"> Show Confirmed </button>
+        <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+            <div class="sidebar-sticky">                
+                <h4 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                    <span>Saved Spreadsheets</span>
+                    <a class="d-flex align-items-center text-muted" href="#">
+                        <span data-feather="plus-circle"></span>
+                    </a>
+                </h4>
+                <ul class="nav flex-column mb-2">
+                    @foreach (SheetUpload sheet in Model.Uploads)
+                    {
+                    <li class="nav-item">
+                        <a class="nav-link" onclick="loadConfirmedSpreadsheet()" href="#" id=@sheet.Id>                            
+                            Sheet: @sheet.Id
+                        </a>
+                    </li>
+                    }
+                </ul>
             </div>
-        </div>
+        </nav>
+
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">            
+            <h2>Please upload your spreadsheet</h2>
+            @*Spreadsheet refers to spreadsheetController and Upload is the action method*@
+            @using (Html.BeginForm("Upload", "Spreadsheet", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                <label for="file">Upload File:</label>
+                <input type="file" name="file" id="file" /><br>
+                <input type="submit" value="Submit" /><br>
+            }
+
+            <h2>@ViewBag.Message</h2>
+
+            <div class="container">
+                <div class="row">
+                    <div class="col" id="tableHolder">
+                    </div>
+                </div>
+                <div class="row" style="margin-top:10px;">
+                    <div>
+                        <button class="btn btn-primary" id="unconfirmed">Show Unconfirmed</button>
+                        <button class="btn btn-primary" id="confirmed"> Show Confirmed </button>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
 </div>
-
-
 
 
 @section Scripts
 {
     <script>
+        //this jquery handles the show unconfirmed button event
         $(document).ready(function(){
             $("#unconfirmed").click(function () {
                 $("#tableHolder").load('@Url.Action("LoadUnconfirmedTable")')
                 })
         })
 
+        //this jquery handles the show confirmed button event
         $(document).ready(function(){
             $("#confirmed").click(function () {
                 $("#tableHolder").load('@Url.Action("LoadConfirmedTable")')
                 })
         })
+
+        //this jquery handles the show confirmed button event
+        var loadConfirmedSpreadsheet = function () {
+            $(document).ready(function () {
+                $(".nav-link").click(function () {
+                    var uploadId = this.id
+                    $("#tableHolder").load('@Url.Action("LoadConfirmedSpreadsheet")', { id: uploadId })
+                })
+            })
+        }
     </script>
-    }
+}

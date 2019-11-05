@@ -16,7 +16,6 @@ namespace EmailConfirmationServer.Models
 
         public Email()
         {
-
         }
 
         public Email(int id, string email)
