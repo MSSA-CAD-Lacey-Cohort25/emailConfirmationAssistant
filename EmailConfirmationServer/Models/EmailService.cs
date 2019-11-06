@@ -9,9 +9,8 @@ namespace EmailConfirmationServer.Models
 {
     public class EmailService
     {
-        private string APIKey = "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";
-        //private string APIKey = "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";
-
+        private string APIKey = "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";
+       
         public EmailService(Spreadsheet sheet)
         {
             Sheet = sheet;
@@ -20,11 +19,7 @@ namespace EmailConfirmationServer.Models
         public Spreadsheet Sheet { get; set; }
 
         public async Task sendConfirmationEmails()
-        {
-            var msg = new SendGridMessage();
-
-           msg.SetFrom( new EmailAddress("test.email.from.app@stmartin.com", "MSSA"));
-
+        {            
             var recipients = new List<EmailAddress>();
 
             var tasks = new List<Task>();
@@ -40,7 +35,7 @@ namespace EmailConfirmationServer.Models
         {
             var msg = new SendGridMessage();
 
-            msg.SetFrom(new EmailAddress("kimberly.castro13@outlook.com", "MSSA"));
+            msg.SetFrom(new EmailAddress("DoNotReply@emailconfirm.com", "MSSA"));
 
             var recipients = new List<EmailAddress>();
             recipients.Add(new EmailAddress(email, name));
