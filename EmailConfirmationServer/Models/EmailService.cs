@@ -4,12 +4,15 @@ using System.Threading.Tasks;
 using SendGrid;
 using SendGrid.Helpers.Mail;
 using Newtonsoft.Json;
+using Microsoft.Extensions.Configuration;
+using System.Configuration;
+using Microsoft.Extensions.Configuration.AzureKeyVault;
 
 namespace EmailConfirmationServer.Models
 {
     public class EmailService
     {
-        private string APIKey = "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";
+        //API Key goes here
 
         public EmailService(Spreadsheet sheet)
         {
