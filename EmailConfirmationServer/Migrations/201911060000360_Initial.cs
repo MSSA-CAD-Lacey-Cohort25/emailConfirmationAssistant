@@ -3,7 +3,7 @@ namespace EmailConfirmationServer.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class initial : DbMigration
+    public partial class Initial : DbMigration
     {
         public override void Up()
         {
@@ -61,6 +61,7 @@ namespace EmailConfirmationServer.Migrations
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
+                        Title = c.String(),
                         UserId = c.String(maxLength: 128),
                     })
                 .PrimaryKey(t => t.Id)
