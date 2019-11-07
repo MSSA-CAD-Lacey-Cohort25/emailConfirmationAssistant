@@ -12,6 +12,7 @@ using EmailConfirmationServerCore.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using EmailConfirmationServer.Models;
 
 namespace EmailConfirmationServerCore
 {
@@ -34,6 +35,7 @@ namespace EmailConfirmationServerCore
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
             services.AddRazorPages();
+            services.AddScoped<IEmailConfirmationContext, ApplicationDbContext>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

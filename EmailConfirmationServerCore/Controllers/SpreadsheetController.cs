@@ -1,5 +1,6 @@
 ﻿using EmailConfirmationServer.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -7,6 +8,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 
@@ -17,10 +19,10 @@ namespace EmailConfirmationServer.Controllers
     {
         private IEmailConfirmationContext context;
 
-        public SpreadsheetController()
-        {
-            context = ApplicationDbContext.Create();
-        }
+        //public SpreadsheetController()
+        //{
+        //    context = ApplicationDbContext.Create();
+        //}
 
         public SpreadsheetController(IEmailConfirmationContext Context)
         {
@@ -34,7 +36,7 @@ namespace EmailConfirmationServer.Controllers
         }
         public ActionResult Upload()
         {
-            string userId = User.Identity.GetUserId();
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var user = context.FindUserById(userId);
 
             if(user == null)
@@ -51,19 +53,18 @@ namespace EmailConfirmationServer.Controllers
             return View(user);
         }
         [HttpPost]
-        public async Task<ActionResult> Upload(HttpPostedFileBase file)
+        public async Task<ActionResult> Upload(IFormFile file)
         {
-            string userId = User.Identity.GetUserId();
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var user = context.FindUserById(userId);
-
           
-            if (file != null && file.ContentLength > 0)
+            if (file != null && file.Length > 0)
             {
                 try
                 {
-                    string path = Path.Combine(Server.MapPath("~/Files"), Path.GetFileName(file.FileName));
-                    file.SaveAs(path);
-
+                    
+                    string path = Path.Combine("~/Files", Path.GetFileName(file.FileName));
+                    
                     Spreadsheet spreadsheet = new Spreadsheet(path);
                     spreadsheet.getExcelFile();
             
@@ -134,7 +135,7 @@ namespace EmailConfirmationServer.Controllers
 
         public ActionResult LoadUnconfirmedSpreadsheet(int id)
         {
-            string userId = User.Identity.GetUserId();
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var user = context.FindUserById(userId);
 
             var upload = (from sheetUpload in user.Uploads
@@ -148,7 +149,7 @@ namespace EmailConfirmationServer.Controllers
 
         public ActionResult LoadConfirmedSpreadsheet(int id)
         {
-            string userId = User.Identity.GetUserId();
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var user = context.FindUserById(userId);
 
             var upload = (from sheetUpload in user.Uploads

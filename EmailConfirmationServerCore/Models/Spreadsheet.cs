@@ -35,7 +35,7 @@ namespace EmailConfirmationServer.Models
         {
             app = new Excel.Application();
             workbook = app.Workbooks.Open(FilePath);
-            worksheet = workbook.Sheets[1];
+            worksheet = (Excel.Worksheet) workbook.Sheets[1];
             range = worksheet.UsedRange;
 
         }
@@ -114,10 +114,15 @@ namespace EmailConfirmationServer.Models
             int OutlookColumn = worksheet.Cells.EntireRow.Find("Outlook").Column;
             int StMartinColumn = worksheet.Cells.EntireRow.Find("StMartin").Column;
 
-            person.FirstName = worksheet.Cells[row, FirstColumn].Value;
-            person.LastName = worksheet.Cells[row, LastColumn].Value;
-            person.Emails.Add(new Email(person.Id, worksheet.Cells[row, OutlookColumn].Value));
-            person.Emails.Add(new Email(person.Id, worksheet.Cells[row, StMartinColumn].Value));
+            //person.FirstName = worksheet.Cells[row, FirstColumn].Value;
+            //person.LastName = worksheet.Cells[row, LastColumn].Value;
+            //person.Emails.Add(new Email(person.Id, worksheet.Cells[row, OutlookColumn].Value));
+            //person.Emails.Add(new Email(person.Id, worksheet.Cells[row, StMartinColumn].Value));
+
+            person.FirstName = worksheet.Cells[row, FirstColumn].ToString();
+            person.LastName = worksheet.Cells[row, LastColumn].ToString();
+            person.Emails.Add(new Email(person.Id, worksheet.Cells[row, OutlookColumn].ToString()));
+            person.Emails.Add(new Email(person.Id, worksheet.Cells[row, StMartinColumn].ToString()));
 
             return person;
         }
@@ -161,9 +166,9 @@ namespace EmailConfirmationServer.Models
             Excel.Range cell = null;
             for (int row = 2; row <= rowCount; row++)
             {
-                if (email.Equals(range.Cells[row, column].Value))
+                if (email.Equals(range.Cells[row, column].ToString()))
                 {
-                    cell = range.Cells[row, column];
+                    cell = (Excel.Range) range.Cells[row, column];
                     break;
                 }
             }

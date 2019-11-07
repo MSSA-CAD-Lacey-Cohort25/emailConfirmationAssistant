@@ -10,10 +10,10 @@ namespace EmailConfirmationServer.Controllers
     {
         private IEmailConfirmationContext context;
 
-        public EmailController()
-        {
-            context = ApplicationDbContext.Create();            
-        }
+        //public EmailController()
+        //{
+        //    context = ApplicationDbContext.Create();            
+        //}
 
         public EmailController(IEmailConfirmationContext Context)
         {
@@ -28,12 +28,15 @@ namespace EmailConfirmationServer.Controllers
 
         public async Task <ActionResult> Confirm (int id, string email)
         {            
-            string path = HostingEnvironment.ApplicationPhysicalPath + "/Files/TestSheet.xlsx";            
 
+            /*
+            string path = HostingEnvironment.ApplicationPhysicalPath + "/Files/TestSheet.xlsx";            
+            
             //Calls the constructor.
             Spreadsheet spreadsheet = new Spreadsheet(path);
             spreadsheet.getExcelFile();
             spreadsheet.ConfirmEmail(email);
+            */
 
             //gets the person who clicks the confirm in their email (from the method's parameters)
             var person = await context.People.Include(c => c.Emails).SingleAsync(c => c.Id == id);

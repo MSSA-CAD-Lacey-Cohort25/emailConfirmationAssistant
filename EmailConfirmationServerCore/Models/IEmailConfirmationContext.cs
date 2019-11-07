@@ -17,6 +17,6 @@ namespace EmailConfirmationServer.Models
         Person FindPersonById(int id);
         IQueryable<Email> FindEmailById(int id);
         User FindUserById(string id);
-        T Add<T>(T entity) where T : class;
+        void Add<T>(T entity) where T : class;
     }
 }
