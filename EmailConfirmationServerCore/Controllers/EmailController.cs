@@ -1,8 +1,8 @@
 ﻿using EmailConfirmationServer.Models;
-using System.Web.Hosting;
-using System.Data.Entity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting.Internal;
 using System.Threading.Tasks;
-using System.Web.Mvc;
 
 namespace EmailConfirmationServer.Controllers
 {
@@ -28,7 +28,7 @@ namespace EmailConfirmationServer.Controllers
 
         public async Task <ActionResult> Confirm (int id, string email)
         {            
-            string path = HostingEnvironment.ApplicationPhysicalPath + "/Files/TestSheet.xlsx";
+            string path = HostingEnvironment.ApplicationPhysicalPath + "/Files/TestSheet.xlsx";            
 
             //Calls the constructor.
             Spreadsheet spreadsheet = new Spreadsheet(path);

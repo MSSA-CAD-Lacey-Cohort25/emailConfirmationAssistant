@@ -1,13 +1,14 @@
 ﻿using EmailConfirmationServer.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
-using System.Data.Entity;
-using Microsoft.AspNet.Identity;
-using System.Web.Mvc;
+
 
 namespace EmailConfirmationServer.Controllers
 {
