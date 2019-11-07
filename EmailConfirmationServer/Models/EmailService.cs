@@ -9,7 +9,7 @@ namespace EmailConfirmationServer.Models
 {
     public class EmailService
     {
-        private string APIKey = "INSERT_KEY_HERE";
+        private string APIKey = "ENTER_KEY_HERE";
        
         public EmailService(Spreadsheet sheet)
         {
