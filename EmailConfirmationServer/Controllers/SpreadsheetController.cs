@@ -65,8 +65,7 @@ namespace EmailConfirmationServer.Controllers
 
                     Spreadsheet spreadsheet = new Spreadsheet(path);
                     spreadsheet.getExcelFile();
-            
-
+                                        
                     if (user == null)
                     {
                         user = new User(userId);
