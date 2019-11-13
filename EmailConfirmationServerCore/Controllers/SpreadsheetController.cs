@@ -1,5 +1,6 @@
 ﻿using EmailConfirmationServer.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -18,15 +19,18 @@ namespace EmailConfirmationServer.Controllers
     public class SpreadsheetController : Controller
     {
         private IEmailConfirmationContext context;
+        private readonly IHostingEnvironment environment;
+
 
         //public SpreadsheetController()
         //{
         //    context = ApplicationDbContext.Create();
         //}
 
-        public SpreadsheetController(IEmailConfirmationContext Context)
+        public SpreadsheetController(IEmailConfirmationContext Context, IHostingEnvironment Environment)
         {
             context = Context;
+            environment = Environment;
         }
 
         // GET: Spreadsheet
@@ -62,12 +66,17 @@ namespace EmailConfirmationServer.Controllers
             {
                 try
                 {
-                    
-                    string path = Path.Combine("~/Files", Path.GetFileName(file.FileName));
-                    
+                    string webRoot = environment.WebRootPath;
+                    string path = Path.Combine(webRoot, Path.GetFileName(file.FileName));
+                    using (var fileStream = new FileStream(path, FileMode.Create))
+                    {
+                        await file.CopyToAsync(fileStream);
+                    }
+
                     Spreadsheet spreadsheet = new Spreadsheet(path);
                     spreadsheet.getExcelFile();
-            
+
+                   
 
                     if (user == null)
                     {
