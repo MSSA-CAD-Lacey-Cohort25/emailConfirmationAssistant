@@ -10,12 +10,12 @@ namespace EmailConfirmationServer.Models
         
         public int Id { get; set; }
 
+        public string UserId { get; set; }
+
         public String Title { get; set; }
    
         public List<Person> People { get; set; }
-
-        public string UserId { get; set; }
-        
+                
         public SheetUpload(int id, string userId, string title)
         {
             Id = id;

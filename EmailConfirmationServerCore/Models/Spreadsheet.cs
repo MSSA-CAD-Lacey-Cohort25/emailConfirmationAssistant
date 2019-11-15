@@ -22,12 +22,54 @@ namespace EmailConfirmationServer.Models
                 throw new ArgumentNullException("The files are not in the computer.");
             
             FilePath = filepath;
-            var excelConverter = new ExcelConverter();
-            var rows = excelConverter.Read<PersonRow>(filepath);
+            People = new List<Person>();
+            ReadSheet();
         }
     
+
+        private void ReadSheet()
+        {
+            var excelConverter = new ExcelConverter();
+            var rows = excelConverter.Read<PersonRow>(FilePath);
+            
+            if (rows == null)
+                throw new FileFormatException(
+                    "There was an error reading the file. " +
+                    "Make sure to check the property names in the row model match the column names in the spreadhseet.");
+
+            convertRowsToPeople(rows);
+        }
+
+        private void convertRowsToPeople(IEnumerable<PersonRow> rows)
+        {
+            int id = 1; 
+            foreach(var row in rows)
+            {
+                if (row == null)
+                    throw new FileFormatException(
+                        "There was an error reading a row. " +
+                        "Make sure to check the property names in the row model match the column names in the spreadhseet.");
+
+                People.Add( convertRowToPerson(row, id++));                
+            }
+        }
+
+        private Person convertRowToPerson(PersonRow row, int id)
+        {
+            Person person = new Person();
+            person.Emails = new List<Email>();
+
+            person.Id = id; 
+            person.FirstName = row.FirstName;
+            person.LastName = row.LastName;
+            person.Emails.Add(new Email(id, row.Outlook));
+            person.Emails.Add(new Email(id, row.Outlook));
+
+            return person; 
+        }
+
         // this function updates the excel file and changes cell to green after an email confirm takes place
-        public void ConfirmEmail(String email)
+            public void ConfirmEmail(String email)
         {
             try
             {

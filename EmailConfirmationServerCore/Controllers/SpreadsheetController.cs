@@ -61,6 +61,7 @@ namespace EmailConfirmationServer.Controllers
         {
             string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var user = context.FindUserById(userId);
+            var uploads = context.FindUploadsByUserId(userId);
           
             if (file != null && file.Length > 0)
             {
@@ -74,10 +75,7 @@ namespace EmailConfirmationServer.Controllers
                     }
 
                     Spreadsheet spreadsheet = new Spreadsheet(path);
-                    spreadsheet.getExcelFile();
-
-                   
-
+                                      
                     if (user == null)
                     {
                         user = new User(userId);
