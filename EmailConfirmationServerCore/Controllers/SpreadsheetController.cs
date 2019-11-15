@@ -124,7 +124,7 @@ namespace EmailConfirmationServer.Controllers
 
             int sheetId = user.Uploads.Count() + 1;
             SheetUpload upload = new SheetUpload(sheetId, user.Id, fileName);
-            upload.People = sheet.Persons;
+            upload.People = sheet.People;
             return upload;
         }
 

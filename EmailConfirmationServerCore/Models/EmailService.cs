@@ -23,7 +23,7 @@ namespace EmailConfirmationServer.Models
             var recipients = new List<EmailAddress>();
 
             var tasks = new List<Task>();
-            foreach (Person person in Sheet.Persons)
+            foreach (Person person in Sheet.People)
             {   foreach (var email in person.Emails)
                 {
                     await sendConfirmationEmail(email.EmailAddress, person.FirstName, person.Id);
