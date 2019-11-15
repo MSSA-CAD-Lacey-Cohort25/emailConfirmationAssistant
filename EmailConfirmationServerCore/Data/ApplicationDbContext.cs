@@ -78,6 +78,14 @@ namespace EmailConfirmationServerCore.Data
 
             return user;
         }
+
+        IQueryable<SheetUpload> IEmailConfirmationContext.FindUploadsByUserId(string id)
+        {
+            var uploads = Uploads
+                .Where(u => u.UserId == id);
+                            
+            return uploads;
+        }
     }
 }
 
