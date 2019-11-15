@@ -5,6 +5,13 @@
     <UserSecretsId>aspnet-EmailConfirmationServerCore-669E6ADC-DC29-41C8-9280-A82F6B873544</UserSecretsId>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="Files\**" />
+    <Content Remove="Files\**" />
+    <EmbeddedResource Remove="Files\**" />
+    <None Remove="Files\**" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="DocumentFormat.OpenXml" Version="2.9.1" />
@@ -19,7 +26,7 @@
 
 
   <ItemGroup>
-    <Folder Include="Files\" />
+    <ProjectReference Include="..\..\Excel-IO\src\Excel.IO\Excel.IO.csproj" />
   </ItemGroup>
 
 </Project>

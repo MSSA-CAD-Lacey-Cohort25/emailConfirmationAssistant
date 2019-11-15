@@ -1,5 +1,6 @@
 ﻿using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
+using Excel.IO;
 using System;
 using System.IO;
 using System.Linq;
@@ -10,35 +11,50 @@ namespace SpreadsheetConsole
     {
         static void Main(string[] args)
         {
-            string dir = "C:\\Users\\izmac\\Source\\Repos\\emailConfirmationAssistant-1\\SpreadsheetConsole";
+            //string dir = "C:\\Users\\izmac\\Source\\Repos\\emailConfirmationAssistant-1\\SpreadsheetConsole";
+            string dir = "C:\\Users\\izmac\\Downloads";
             string path = Path.Combine(dir, "TestSheet.xlsx");
 
             if (File.Exists(path))
             {
-                using(SpreadsheetDocument doc = SpreadsheetDocument.Open(path, false))
+                var excelConverter = new ExcelConverter();
+                var people = excelConverter.Read<PersonRow>(path);
+
+                foreach (var person in people)
                 {
-                    var workbook = doc.WorkbookPart.Workbook;
-                    var sheets = workbook.Descendants<Sheet>();
-                    var sheet = sheets.FirstOrDefault();
-                    SharedStringTable sharedStrings = doc.WorkbookPart.SharedStringTablePart.SharedStringTable;
-
-                    var rows = from row in sheet.Descendants<Row>()
-                               select row;
-
-                    foreach(var row in rows)
-                    {
-                        var cells = from cell in row.Descendants<Cell>()
-                                    select cell.CellValue.InnerText;
-
-                        Console.WriteLine(cells);
-
-                    }
+                    Console.WriteLine(person);
                 }
+
             }
-
-
-
-
         }
     }
+
+    public class PersonRow : IExcelRow
+    {
+        public string SheetName { get; set; }
+
+        public string FirstName { get; set; }
+        
+        public string LastName { get; set; }
+        
+        public string Outlook { get; set; }
+        
+        public string StMartin{ get; set; }
+
+        public PersonRow()
+        {
+            SheetName = "Sheet1";
+        }
+
+        public PersonRow(string sheetName)
+        {
+            SheetName = sheetName;
+        }
+
+        public override string ToString()
+        {
+            return $"{FirstName} {LastName} : {Outlook}, {StMartin}";
+        }
+    }
+
 }
