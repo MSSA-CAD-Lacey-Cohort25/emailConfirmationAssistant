@@ -11,8 +11,7 @@ namespace EmailConfirmationServer.Models
 {
     public class Person
     {
-        
-        [DatabaseGeneratedAttribute(DatabaseGeneratedOption.None)]
+                
         public int Id { get; set; }
 
         public int UploadId { get; set; }

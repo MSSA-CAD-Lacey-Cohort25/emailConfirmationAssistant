@@ -16,17 +16,17 @@ namespace EmailConfirmationServer.Models
 
         public string FilePath { get; set; }
 
-        public Spreadsheet(string filepath, int uploadId)
+        public Spreadsheet(string filepath)
         {
             if (!File.Exists(filepath))
                 throw new ArgumentNullException("The files are not in the computer.");
             
             FilePath = filepath;
             People = new List<Person>();
-            ReadSheet(uploadId);
+            ReadSheet();
         }
     
-        private void ReadSheet(int uploadId)
+        private void ReadSheet()
         {
             var excelConverter = new ExcelConverter();
             var rows = excelConverter.Read<PersonRow>(FilePath);
@@ -36,10 +36,10 @@ namespace EmailConfirmationServer.Models
                     "There was an error reading the file. " +
                     "Make sure to check the property names in the row model match the column names in the spreadhseet.");
 
-            convertRowsToPeople(rows, uploadId);
+            convertRowsToPeople(rows);
         }
 
-        private void convertRowsToPeople(IEnumerable<PersonRow> rows, int uploadId)
+        private void convertRowsToPeople(IEnumerable<PersonRow> rows)
         {
             int personId = 1; 
             foreach(var row in rows)
@@ -49,21 +49,19 @@ namespace EmailConfirmationServer.Models
                         "There was an error reading a row. " +
                         "Make sure to check the property names in the row model match the column names in the spreadhseet.");
 
-                People.Add( convertRowToPerson(row, personId++, uploadId));                
+                People.Add(convertRowToPerson(row));                
             }
         }
 
-        private Person convertRowToPerson(PersonRow row, int personId, int uploadId)
+        private Person convertRowToPerson(PersonRow row)
         {
             Person person = new Person();
             person.Emails = new List<Email>();
-
-            person.Id = personId;
-            person.UploadId = uploadId;
+            
             person.FirstName = row.FirstName;
             person.LastName = row.LastName;
-            person.Emails.Add(new Email(personId, row.Outlook));
-            person.Emails.Add(new Email(personId, row.StMartin));
+            person.Emails.Add(new Email(row.Outlook));
+            person.Emails.Add(new Email(row.StMartin));
 
             return person; 
         }
