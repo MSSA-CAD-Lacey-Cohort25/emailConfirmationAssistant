@@ -21,12 +21,6 @@ namespace EmailConfirmationServer.Controllers
         private IEmailConfirmationContext context;
         private readonly IHostingEnvironment environment;
 
-
-        //public SpreadsheetController()
-        //{
-        //    context = ApplicationDbContext.Create();
-        //}
-
         public SpreadsheetController(IEmailConfirmationContext Context, IHostingEnvironment Environment)
         {
             context = Context;
