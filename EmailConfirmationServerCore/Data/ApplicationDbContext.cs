@@ -14,7 +14,7 @@ namespace EmailConfirmationServerCore.Data
             : base(options)
         {
         }
-
+     
         IQueryable<Person> IEmailConfirmationContext.People
         {
             get { return People; }

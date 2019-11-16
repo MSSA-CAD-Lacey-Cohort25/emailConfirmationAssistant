@@ -63,9 +63,9 @@ namespace EmailConfirmationServer.Controllers
                     string path = Path.Combine(webRoot, Path.GetFileName(file.FileName));
                     await saveFileToRootFolder(path, file);
 
-                    Spreadsheet spreadsheet = new Spreadsheet(path);
-                    int sheetId = uploads.Count() + 1;
-                    var upload = createNewUpload(sheetId, userId, spreadsheet, file.FileName);
+                    int uploadId = uploads.Count() + 1;
+                    Spreadsheet spreadsheet = new Spreadsheet(path, uploadId);                    
+                    var upload = createNewUpload(uploadId, userId, spreadsheet, file.FileName);
                     uploads.Add(upload);
 
                     context.Add<SheetUpload>(upload);
