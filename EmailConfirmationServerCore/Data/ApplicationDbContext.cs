@@ -62,7 +62,8 @@ namespace EmailConfirmationServerCore.Data
         IQueryable<SheetUpload> IEmailConfirmationContext.FindUploadsByUserId(string id)
         {
             var uploads = Uploads
-                .Where(u => u.UserId == id);
+                .Where(u => u.UserId == id)
+                .Include(u => u.People);                
                             
             return uploads;
         }
