@@ -41,27 +41,25 @@ namespace EmailConfirmationServer.Controllers
         public ActionResult Upload()
         {
             string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var user = context.FindUserById(userId);
+            var uploads = context.FindUploadsByUserId(userId).ToList();
 
-            if(user == null)
+            if (uploads == null)
             {
-                user = new User(userId);
+                uploads = new List<SheetUpload>();
             }
 
-            if (user.Uploads == null)
-            {
-                user.Uploads = new List<SheetUpload>();
-            }
-
-            //To do: return uploads instead of a list of people
-            return View(user);
+            return View(uploads);
         }
         [HttpPost]
         public async Task<ActionResult> Upload(IFormFile file)
         {
-            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var user = context.FindUserById(userId);
-            var uploads = context.FindUploadsByUserId(userId);
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);            
+            var uploads = context.FindUploadsByUserId(userId).ToList();
+
+            if(uploads == null)
+            {
+                uploads = new List<SheetUpload>();
+            }
           
             if (file != null && file.Length > 0)
             {
@@ -69,25 +67,14 @@ namespace EmailConfirmationServer.Controllers
                 {
                     string webRoot = environment.WebRootPath;
                     string path = Path.Combine(webRoot, Path.GetFileName(file.FileName));
-                    using (var fileStream = new FileStream(path, FileMode.Create))
-                    {
-                        await file.CopyToAsync(fileStream);
-                    }
+                    await saveFileToRootFolder(path, file);
 
                     Spreadsheet spreadsheet = new Spreadsheet(path);
-                                      
-                    if (user == null)
-                    {
-                        user = new User(userId);
-                        addUploadToUser(user, spreadsheet, file.FileName);
-                        context.Add<User>(user);
-                    }
-                    else
-                    {
-                        var upload = createNewUpload(user, spreadsheet, file.FileName);
-                        context.Add<SheetUpload>(upload);
-                    }
+                    int sheetId = uploads.Count() + 1;
+                    var upload = createNewUpload(sheetId, userId, spreadsheet, file.FileName);
+                    uploads.Add(upload);
 
+                    context.Add<SheetUpload>(upload);
                     context.SaveChanges();
 
                     var emailService = new Models.EmailService(spreadsheet);
@@ -104,24 +91,20 @@ namespace EmailConfirmationServer.Controllers
             {
                 ViewBag.Message = "You have not specified a file.";
             }
-            return View("Upload", user);
+            return View("Upload", uploads);
         }
 
-        private void addUploadToUser(User user, Spreadsheet sheet, string fileName)
-        {                        
-            user.Uploads.Add(createNewUpload(user, sheet, fileName));                           
-        }
-
-        private SheetUpload createNewUpload(User user, Spreadsheet sheet, string fileName)
-        {
-            //This means entity framework could not find related uplaods in the DB
-            if( user.Uploads == null)
+        private async Task saveFileToRootFolder(string path, IFormFile file)
+        {            
+            using (var fileStream = new FileStream(path, FileMode.Create))
             {
-                user.Uploads = new List<SheetUpload>();
+                await file.CopyToAsync(fileStream);
             }
-
-            int sheetId = user.Uploads.Count() + 1;
-            SheetUpload upload = new SheetUpload(sheetId, user.Id, fileName);
+        }
+     
+        private SheetUpload createNewUpload(int sheetId, string userId, Spreadsheet sheet, string fileName)
+        {            
+            SheetUpload upload = new SheetUpload(sheetId, userId, fileName);
             upload.People = sheet.People;
             return upload;
         }
@@ -142,10 +125,15 @@ namespace EmailConfirmationServer.Controllers
 
         public ActionResult LoadUnconfirmedSpreadsheet(int id)
         {
-            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var user = context.FindUserById(userId);
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);            
+            var uploads = context.FindUploadsByUserId(userId).ToList();
 
-            var upload = (from sheetUpload in user.Uploads
+            if (uploads == null)
+            {
+                uploads = new List<SheetUpload>();
+            }
+
+            var upload = (from sheetUpload in uploads
                          where sheetUpload.Id == id
                          select sheetUpload).FirstOrDefault();
 
@@ -157,9 +145,14 @@ namespace EmailConfirmationServer.Controllers
         public ActionResult LoadConfirmedSpreadsheet(int id)
         {
             string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var user = context.FindUserById(userId);
+            var uploads = context.FindUploadsByUserId(userId).ToList();
 
-            var upload = (from sheetUpload in user.Uploads
+            if (uploads == null)
+            {
+                uploads = new List<SheetUpload>();
+            }
+
+            var upload = (from sheetUpload in uploads
                           where sheetUpload.Id == id
                           select sheetUpload).FirstOrDefault();
 

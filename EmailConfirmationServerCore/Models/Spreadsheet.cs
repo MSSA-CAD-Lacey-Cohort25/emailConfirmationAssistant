@@ -63,7 +63,7 @@ namespace EmailConfirmationServer.Models
             person.FirstName = row.FirstName;
             person.LastName = row.LastName;
             person.Emails.Add(new Email(id, row.Outlook));
-            person.Emails.Add(new Email(id, row.Outlook));
+            person.Emails.Add(new Email(id, row.StMartin));
 
             return person; 
         }
