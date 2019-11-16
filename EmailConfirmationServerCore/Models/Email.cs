@@ -10,6 +10,8 @@ namespace EmailConfirmationServer.Models
     {
         public int Id { get; set; }
 
+        public int PersonId { get; set; }
+
         public string EmailAddress { get; set; }
 
         public bool IsConfirmed { get; set; }
@@ -18,9 +20,9 @@ namespace EmailConfirmationServer.Models
         {
         }
 
-        public Email(int id, string email)
+        public Email(int personId, string email)
         {
-            Id = id;
+            PersonId = personId;
             EmailAddress = email;
         }
     }

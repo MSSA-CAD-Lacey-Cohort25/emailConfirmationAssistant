@@ -1,5 +1,5 @@
 ﻿@using EmailConfirmationServer.Models
-@model User
+@model List<SheetUpload>
 @{
     ViewBag.Title = "Manage Spreadsheet";
 }
@@ -15,7 +15,7 @@
                     </a>
                 </h4>
                 <ul class="nav flex-column mb-2">
-                    @foreach (SheetUpload sheet in Model.Uploads)
+                    @foreach (SheetUpload sheet in Model)
                     {
                         <li class="nav-item">
                             <a class="nav-link" onclick="loadConfirmedSpreadsheet()" href="#" id=@sheet.Id>
