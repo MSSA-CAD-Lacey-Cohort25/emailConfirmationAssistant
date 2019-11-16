@@ -9,9 +9,7 @@ using System.Threading.Tasks;
 namespace EmailConfirmationServer.Models
 {
     public class Email
-    {
-        [Key]
-        [DatabaseGeneratedAttribute(DatabaseGeneratedOption.None)]
+    {        
         public int Id { get; set; }
 
         public int PersonId { get; set; }

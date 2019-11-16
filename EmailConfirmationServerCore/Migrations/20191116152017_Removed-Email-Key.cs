@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace EmailConfirmationServerCore.Migrations
 {
-    public partial class Initial : Migration
+    public partial class RemovedEmailKey : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -169,8 +169,7 @@ namespace EmailConfirmationServerCore.Migrations
                 name: "People",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<int>(nullable: false),
                     FirstName = table.Column<string>(nullable: true),
                     LastName = table.Column<string>(nullable: true),
                     SheetUploadId = table.Column<int>(nullable: true)
