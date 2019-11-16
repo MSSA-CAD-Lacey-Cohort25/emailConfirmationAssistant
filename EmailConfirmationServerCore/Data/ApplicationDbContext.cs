@@ -63,7 +63,9 @@ namespace EmailConfirmationServerCore.Data
         {
             var uploads = Uploads
                 .Where(u => u.UserId == id)
-                .Include(u => u.People);                
+                .Include(u => u.People)
+                    .ThenInclude(p => p.Emails);
+                                
                             
             return uploads;
         }
