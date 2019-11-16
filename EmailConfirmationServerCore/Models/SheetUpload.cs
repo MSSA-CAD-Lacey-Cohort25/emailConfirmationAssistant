@@ -17,7 +17,7 @@ namespace EmailConfirmationServer.Models
 
         public String Title { get; set; }
 
-        public virtual ICollection<Person> People { get; set; }
+        public  ICollection<Person> People { get; set; }
 
         public SheetUpload(int id, string userId, string title)
         {

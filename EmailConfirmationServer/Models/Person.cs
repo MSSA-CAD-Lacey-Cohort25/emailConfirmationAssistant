@@ -18,7 +18,7 @@ namespace EmailConfirmationServer.Models
         public string LastName { get; set; }
 
         public List<Email> Emails { get; set; } = new List<Email>();
-
+                
         //Used for testing purposes
         public override string ToString()
         {
