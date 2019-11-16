@@ -22,9 +22,8 @@ namespace EmailConfirmationServer.Models
         {
         }
 
-        public Email(int personId, string email)
-        {
-            PersonId = personId;
+        public Email(string email)
+        {            
             EmailAddress = email;
         }
     }

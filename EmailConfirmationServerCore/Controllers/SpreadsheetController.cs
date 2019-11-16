@@ -62,10 +62,9 @@ namespace EmailConfirmationServer.Controllers
                     string webRoot = environment.WebRootPath;
                     string path = Path.Combine(webRoot, Path.GetFileName(file.FileName));
                     await saveFileToRootFolder(path, file);
-
-                    int uploadId = uploads.Count() + 1;
-                    Spreadsheet spreadsheet = new Spreadsheet(path, uploadId);                    
-                    var upload = createNewUpload(uploadId, userId, spreadsheet, file.FileName);
+                    
+                    Spreadsheet spreadsheet = new Spreadsheet(path);                    
+                    var upload = createNewUpload(userId, spreadsheet, file.FileName);
                     uploads.Add(upload);
 
                     context.Add<SheetUpload>(upload);
@@ -96,9 +95,9 @@ namespace EmailConfirmationServer.Controllers
             }
         }
      
-        private SheetUpload createNewUpload(int sheetId, string userId, Spreadsheet sheet, string fileName)
+        private SheetUpload createNewUpload(string userId, Spreadsheet sheet, string fileName)
         {            
-            SheetUpload upload = new SheetUpload(sheetId, userId, fileName);
+            SheetUpload upload = new SheetUpload(userId, fileName);
             upload.People = sheet.People;
             return upload;
         }

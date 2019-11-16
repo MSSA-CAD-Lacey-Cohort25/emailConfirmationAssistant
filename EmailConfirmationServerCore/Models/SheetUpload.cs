@@ -9,8 +9,7 @@ namespace EmailConfirmationServer.Models
 {
     public class SheetUpload
     {
-        [Key]
-        [DatabaseGeneratedAttribute(DatabaseGeneratedOption.None)]
+        
         public int Id { get; set; }
 
         public string UserId { get; set; }
@@ -19,19 +18,15 @@ namespace EmailConfirmationServer.Models
 
         public  ICollection<Person> People { get; set; }
 
-        public SheetUpload(int id, string userId, string title)
+        public SheetUpload()
         {
-            Id = id;
+        }
+
+        public SheetUpload(string userId, string title)
+        {            
             UserId = userId;
             Title = title;
             People = null;
-        }
-
-        public SheetUpload()
-        {            
-            UserId = null;
-            Title = null;
-            People = null;
-        }
+        }        
     }
 }
