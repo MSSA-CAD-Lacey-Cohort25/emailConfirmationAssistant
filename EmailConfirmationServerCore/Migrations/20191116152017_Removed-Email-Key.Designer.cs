@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EmailConfirmationServerCore.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20191116033721_Initial")]
-    partial class Initial
+    [Migration("20191116152017_Removed-Email-Key")]
+    partial class RemovedEmailKey
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -47,9 +47,7 @@ namespace EmailConfirmationServerCore.Migrations
             modelBuilder.Entity("EmailConfirmationServer.Models.Person", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
 
                     b.Property<string>("FirstName")
                         .HasColumnType("nvarchar(max)");

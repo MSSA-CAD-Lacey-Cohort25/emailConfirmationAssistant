@@ -33,4 +33,9 @@
     <ProjectReference Include="..\..\Excel-IO\src\Excel.IO\Excel.IO.csproj" />
   </ItemGroup>
 
+
+  <ItemGroup>
+    <Folder Include="Data\Migrations\" />
+  </ItemGroup>
+
 </Project>

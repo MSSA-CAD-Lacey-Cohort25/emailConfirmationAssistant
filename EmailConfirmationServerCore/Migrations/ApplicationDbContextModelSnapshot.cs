@@ -22,7 +22,9 @@ namespace EmailConfirmationServerCore.Migrations
             modelBuilder.Entity("EmailConfirmationServer.Models.Email", b =>
                 {
                     b.Property<int>("Id")
-                        .HasColumnType("int");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("EmailAddress")
                         .HasColumnType("nvarchar(max)");
