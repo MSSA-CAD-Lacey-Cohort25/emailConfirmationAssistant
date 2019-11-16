@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
@@ -7,6 +9,8 @@ namespace EmailConfirmationServer.Models
 {
     public class SheetUpload
     {
+        [Key]
+        [DatabaseGeneratedAttribute(DatabaseGeneratedOption.None)]
         public int Id { get; set; }
 
         public string UserId { get; set; }
@@ -24,8 +28,7 @@ namespace EmailConfirmationServer.Models
         }
 
         public SheetUpload()
-        {
-            Id = 0;
+        {            
             UserId = null;
             Title = null;
             People = null;
