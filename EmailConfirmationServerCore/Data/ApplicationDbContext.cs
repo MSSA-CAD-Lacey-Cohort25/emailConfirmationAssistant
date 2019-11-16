@@ -41,14 +41,6 @@ namespace EmailConfirmationServerCore.Data
 
         public DbSet<SheetUpload> Uploads { get; set; }
 
-        IQueryable<User> IEmailConfirmationContext.Users
-        {
-            get { return Users; }
-        }
-
-        public DbSet<User> Users { get; set; }
-
-
         void IEmailConfirmationContext.SaveChanges()
         {
             SaveChanges();
@@ -66,19 +58,7 @@ namespace EmailConfirmationServerCore.Data
                          select email;
             return emails;
         }
-
-        User IEmailConfirmationContext.FindUserById(string id)
-        {
-            var user = Users
-                .Where(u => u.Id == id)
-                .Include(u => u.Uploads)
-                    .ThenInclude(s => s.People)
-                    .ThenInclude(p => p.Emails)
-                .FirstOrDefault();
-
-            return user;
-        }
-
+     
         IQueryable<SheetUpload> IEmailConfirmationContext.FindUploadsByUserId(string id)
         {
             var uploads = Uploads

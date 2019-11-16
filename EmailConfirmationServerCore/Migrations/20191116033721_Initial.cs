@@ -47,14 +47,16 @@ namespace EmailConfirmationServerCore.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Users",
+                name: "Uploads",
                 columns: table => new
                 {
-                    Id = table.Column<string>(nullable: false)
+                    Id = table.Column<int>(nullable: false),
+                    UserId = table.Column<string>(nullable: true),
+                    Title = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Users", x => x.Id);
+                    table.PrimaryKey("PK_Uploads", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -164,26 +166,6 @@ namespace EmailConfirmationServerCore.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Uploads",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<string>(nullable: true),
-                    Title = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Uploads", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Uploads_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "People",
                 columns: table => new
                 {
@@ -210,9 +192,9 @@ namespace EmailConfirmationServerCore.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    PersonId = table.Column<int>(nullable: false),
                     EmailAddress = table.Column<string>(nullable: true),
-                    IsConfirmed = table.Column<bool>(nullable: false),
-                    PersonId = table.Column<int>(nullable: true)
+                    IsConfirmed = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -222,7 +204,7 @@ namespace EmailConfirmationServerCore.Migrations
                         column: x => x.PersonId,
                         principalTable: "People",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -273,11 +255,6 @@ namespace EmailConfirmationServerCore.Migrations
                 name: "IX_People_SheetUploadId",
                 table: "People",
                 column: "SheetUploadId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Uploads_UserId",
-                table: "Uploads",
-                column: "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -311,9 +288,6 @@ namespace EmailConfirmationServerCore.Migrations
 
             migrationBuilder.DropTable(
                 name: "Uploads");
-
-            migrationBuilder.DropTable(
-                name: "Users");
         }
     }
 }

@@ -10,14 +10,12 @@ namespace EmailConfirmationServer.Models
     {
         IQueryable<Person> People { get; }
         IQueryable<Email> Emails { get; }
-        IQueryable<SheetUpload> Uploads { get; }
-        IQueryable<User> Users { get; }
+        IQueryable<SheetUpload> Uploads { get; }        
 
         void SaveChanges();
         Person FindPersonById(int id);
         IQueryable<Email> FindEmailById(int id);
         IQueryable<SheetUpload> FindUploadsByUserId(string id);
-        User FindUserById(string id);
         void Add<T>(T entity) where T : class;
     }
 }

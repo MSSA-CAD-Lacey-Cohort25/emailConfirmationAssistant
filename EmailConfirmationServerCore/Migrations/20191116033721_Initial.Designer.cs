@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EmailConfirmationServerCore.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20191116011504_Initial")]
+    [Migration("20191116033721_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -34,7 +34,7 @@ namespace EmailConfirmationServerCore.Migrations
                     b.Property<bool>("IsConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("PersonId")
+                    b.Property<int>("PersonId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -70,31 +70,17 @@ namespace EmailConfirmationServerCore.Migrations
             modelBuilder.Entity("EmailConfirmationServer.Models.SheetUpload", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
 
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Uploads");
-                });
-
-            modelBuilder.Entity("EmailConfirmationServer.Models.User", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -301,7 +287,9 @@ namespace EmailConfirmationServerCore.Migrations
                 {
                     b.HasOne("EmailConfirmationServer.Models.Person", null)
                         .WithMany("Emails")
-                        .HasForeignKey("PersonId");
+                        .HasForeignKey("PersonId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("EmailConfirmationServer.Models.Person", b =>
@@ -309,13 +297,6 @@ namespace EmailConfirmationServerCore.Migrations
                     b.HasOne("EmailConfirmationServer.Models.SheetUpload", null)
                         .WithMany("People")
                         .HasForeignKey("SheetUploadId");
-                });
-
-            modelBuilder.Entity("EmailConfirmationServer.Models.SheetUpload", b =>
-                {
-                    b.HasOne("EmailConfirmationServer.Models.User", null)
-                        .WithMany("Uploads")
-                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
