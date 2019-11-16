@@ -1,0 +1,33 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+    <div class="jumbotron" style="background-image: url('Images/JumbotronImg.jpg') ; background-size: cover; color: white">
+        <h1>Email Confirmation Service</h1>
+        <p class="lead">Streamline the in-proccessing of new MSSA students!</p>
+        
+        <p>
+            After uploading an excel file, the service will scan it and send an email that your recipients can use to confirm their emails.
+            You can then log on to see who has and has not confirmed their emails.
+            <br />   
+    </div>
+
+    <div class="row" ; style="color: black">
+        <div class="col-md-4">
+
+            <h2>How to use the service</h2>
+            <ol>
+                <li>Login or register</li>
+                <li>Add names and emails to a Microsoft Excel spreadsheet in the same format as the image on this page</li>
+                <li>Upload spreadsheet</li>
+                <li>Emails will send to your recipients automatically</li>
+                <li>As participants confirm, your "My Spreadsheets" page will update</li>
+            </ol>
+            <a href=@Url.Action("Register", "Account") class="btn btn-primary btn-lg" style="background-color: #288a52;">Register</a>
+            <a href=@Url.Action("Login", "Account") class="btn btn-primary btn-lg" style="background-color: #288a52;">Log In</a>
+        </div>
+        <div class="col-md-8">
+            <img src="~/Images/excelSheetPhoto.jpg" class="img-fluid" />
+        </div>
+    </div>
+

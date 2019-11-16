@@ -1,14 +1,13 @@
 ﻿using EmailConfirmationServer.Models;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
-using System.Web.Mvc;
 using System.Data.Entity;
 using Microsoft.AspNet.Identity;
+using System.Web.Mvc;
 
 namespace EmailConfirmationServer.Controllers
 {
@@ -66,8 +65,7 @@ namespace EmailConfirmationServer.Controllers
 
                     Spreadsheet spreadsheet = new Spreadsheet(path);
                     spreadsheet.getExcelFile();
-            
-
+                                        
                     if (user == null)
                     {
                         user = new User(userId);
