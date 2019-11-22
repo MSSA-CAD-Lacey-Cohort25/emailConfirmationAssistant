@@ -66,8 +66,8 @@ namespace EmailConfirmationServer.Models
             return person; 
         }
 
-        // this function updates the excel file and changes cell to green after an email confirm takes place
-            public void ConfirmEmail(String email)
+        // This function updates the excel file and changes cell to green after an email confirm takes place
+        public void ConfirmEmail(String email)
         {
             try
             {
