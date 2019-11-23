@@ -4,16 +4,22 @@ using System.Threading.Tasks;
 using SendGrid;
 using SendGrid.Helpers.Mail;
 using Newtonsoft.Json;
+using Microsoft.Extensions.Configuration;
 
 namespace EmailConfirmationServer.Models
 {
+
     public class EmailService
     {
+        private readonly IConfiguration _configuration;
+
         private string APIKey = "";
        
-        public EmailService(Spreadsheet sheet)
+        public EmailService(Spreadsheet sheet, IConfiguration configuration)
         {
+            _configuration = configuration;
             Sheet = sheet;
+            APIKey = _configuration["SendGridKey"];
         }
 
         public Spreadsheet Sheet { get; set; }

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -21,10 +22,13 @@ namespace EmailConfirmationServer.Controllers
         private IEmailConfirmationContext context;
         private readonly IHostingEnvironment environment;
 
-        public SpreadsheetController(IEmailConfirmationContext Context, IHostingEnvironment Environment)
+        private readonly IConfiguration _configuration;
+
+        public SpreadsheetController(IEmailConfirmationContext Context, IHostingEnvironment Environment, IConfiguration configuration)
         {
             context = Context;
             environment = Environment;
+            _configuration = configuration;
         }
 
         // GET: Spreadsheet
@@ -70,7 +74,7 @@ namespace EmailConfirmationServer.Controllers
                     context.Add<SheetUpload>(upload);
                     context.SaveChanges();
 
-                    var emailService = new Models.EmailService(spreadsheet);
+                    var emailService = new Models.EmailService(spreadsheet, _configuration);
                     await emailService.sendConfirmationEmails();                                                           
                     ViewBag.Message = "File uploaded successfully";
 
