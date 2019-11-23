@@ -13,7 +13,7 @@ namespace EmailConfirmationServer.Models
     {
         private readonly IConfiguration _configuration;
 
-        private string APIKey = "";
+        private string APIKey = String.Empty;
        
         public EmailService(Spreadsheet sheet, IConfiguration configuration)
         {
