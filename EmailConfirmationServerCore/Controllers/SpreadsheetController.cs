@@ -1,4 +1,5 @@
 ﻿using EmailConfirmationServer.Models;
+using EmailConfirmationServerCore.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -21,14 +22,16 @@ namespace EmailConfirmationServer.Controllers
     {
         private IEmailConfirmationContext context;
         private readonly IHostingEnvironment environment;
+        private readonly IConfiguration configuration;
+        private readonly ICreateSheet createSheet;
 
-        private readonly IConfiguration _configuration;
-
-        public SpreadsheetController(IEmailConfirmationContext Context, IHostingEnvironment Environment, IConfiguration configuration)
+        public SpreadsheetController(IEmailConfirmationContext Context, IHostingEnvironment Environment, IConfiguration configuration,
+            ICreateSheet createSheet)
         {
-            context = Context;
-            environment = Environment;
-            _configuration = configuration;
+            this.context = Context;
+            this.environment = Environment;
+            this.configuration = configuration;
+            this.createSheet = createSheet;
         }
 
         // GET: Spreadsheet
@@ -48,7 +51,9 @@ namespace EmailConfirmationServer.Controllers
 
             return View(uploads);
         }
+
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> Upload(IFormFile file)
         {
             string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);            
@@ -74,7 +79,7 @@ namespace EmailConfirmationServer.Controllers
                     context.Add<SheetUpload>(upload);
                     context.SaveChanges();
 
-                    var emailService = new Models.EmailService(spreadsheet, _configuration);
+                    var emailService = new Models.EmailService(spreadsheet, configuration);
                     await emailService.sendConfirmationEmails();                                                           
                     ViewBag.Message = "File uploaded successfully";
 
@@ -106,6 +111,38 @@ namespace EmailConfirmationServer.Controllers
             return upload;
         }
 
+        [HttpGet]
+        public IActionResult Download(int id)
+        {
+            var upload = GetUploadById(id);
+            var people = upload.People;
+            var rows = ExcelRowHelpers.convertToPersonRows(people);
+
+            
+                        
+            var content = new System.IO.MemoryStream(data);
+            var contentType = "application / vnd.openxmlformats - officedocument.spreadsheetml.sheet";            
+            
+            return File(content, contentType, upload.Title);
+        }
+
+        private SheetUpload GetUploadById(int id)
+        {
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var uploads = context.FindUploadsByUserId(userId).ToList();
+
+            if (uploads == null)
+            {
+                uploads = new List<SheetUpload>();
+            }
+
+            var upload = (from sheetUpload in uploads
+                          where sheetUpload.Id == id
+                          select sheetUpload).FirstOrDefault();
+
+            return upload;
+        }
+
         public ActionResult LoadUnconfirmedTable()
         {
             var people = context.People.Include(c => c.Emails);
@@ -121,18 +158,8 @@ namespace EmailConfirmationServer.Controllers
         }
 
         public ActionResult LoadUnconfirmedSpreadsheet(int id)
-        {
-            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);            
-            var uploads = context.FindUploadsByUserId(userId).ToList();
-
-            if (uploads == null)
-            {
-                uploads = new List<SheetUpload>();
-            }
-
-            var upload = (from sheetUpload in uploads
-                         where sheetUpload.Id == id
-                         select sheetUpload).FirstOrDefault();
+        {           
+            var upload = GetUploadById(id);
 
             var people = upload.People.AsQueryable();
 
@@ -141,17 +168,7 @@ namespace EmailConfirmationServer.Controllers
 
         public ActionResult LoadConfirmedSpreadsheet(int id)
         {
-            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var uploads = context.FindUploadsByUserId(userId).ToList();
-
-            if (uploads == null)
-            {
-                uploads = new List<SheetUpload>();
-            }
-
-            var upload = (from sheetUpload in uploads
-                          where sheetUpload.Id == id
-                          select sheetUpload).FirstOrDefault();
+            var upload = GetUploadById(id);
 
             var people = upload.People.AsQueryable();
 
