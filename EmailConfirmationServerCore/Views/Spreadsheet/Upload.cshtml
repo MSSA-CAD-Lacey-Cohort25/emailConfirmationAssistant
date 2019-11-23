@@ -14,14 +14,27 @@
                         <span data-feather="plus-circle"></span>
                     </a>
                 </h4>
-                <ul class="nav flex-column mb-2">
+                <ul class="nav flex-column mb-2" id="sheetSideNavBar">
+                    @{ bool first = true; }
                     @foreach (SheetUpload sheet in Model)
                     {
-                        <li class="nav-item">
-                            <a class="nav-link" onclick="loadConfirmedSpreadsheet()" href="#" id=@sheet.Id>
-                                @sheet.Title
-                            </a>
-                        </li>
+                        if (first)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link active" onclick="loadConfirmedSpreadsheet()" href="#" id=@sheet.Id>
+                                    @sheet.Title
+                                </a>
+                            </li>
+                            first = false;
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" onclick="loadConfirmedSpreadsheet()" href="#" id=@sheet.Id>
+                                    @sheet.Title
+                                </a>
+                            </li>
+                        }
                     }
                 </ul>
             </div>
@@ -74,8 +87,7 @@
             var uploadId = $(".nav-link.active").prop("id")              
             $("#tableHolder").load('@Url.Action("LoadConfirmedSpreadsheet")', { id: uploadId })
             })
-        
-
+     
         //this jquery handles the show confirmed button event
         var loadConfirmedSpreadsheet = function () {
             $(document).ready(function () {
@@ -85,12 +97,21 @@
                     $(this).addClass("active")
                     
                     var uploadId = this.id
-                     
-                    console.log("test")               
+                                         
                     $("#tableHolder").load('@Url.Action("LoadUnConfirmedSpreadsheet")', { id: uploadId }, function (response, status, http) {               
                     })
                 })
             })
         }
+
+        //var setFirstSpreadSheetAsActive = function () {
+        //    let firstListItem = $("#sheetSideNavBar:first-child")
+        //    let firstAnchor = firstListItem.find("li:first").find("a:first");
+        //    console.log(firstAnchor.prop("id"))
+        //    firstAnchor.addClass("active")
+        //}
+
+        //setFirstSpreadSheetAsActive()
+
     </script>
 }
