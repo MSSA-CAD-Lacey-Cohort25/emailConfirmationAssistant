@@ -42,7 +42,16 @@ namespace EmailConfirmationServerCore.Models
         public static IEnumerable<PersonRow> convertToPersonRows(IEnumerable<Person> people)
         {
             var personRows = new List<PersonRow>();
-
+            personRows.Add(
+                new PersonRow
+                {
+                    FirstName = "Isaac",
+                    LastName =  "Flores",
+                    Outlook = "test@outlook.com",
+                    StMartin = "test@stmartin.com",
+                    SheetName = "Sheet1"
+                }    
+            );
             return personRows; 
         }
 

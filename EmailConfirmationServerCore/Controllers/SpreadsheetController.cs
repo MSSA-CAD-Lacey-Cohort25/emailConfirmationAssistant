@@ -112,7 +112,8 @@ namespace EmailConfirmationServer.Controllers
             return upload;
         }
 
-        [HttpGet]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Download(int id)
         {
             var upload = GetUploadById(id);
@@ -123,7 +124,7 @@ namespace EmailConfirmationServer.Controllers
             var excelConverter = new ExcelConverter();
             excelConverter.Write(rows, memoryStream);
 
-            var contentType = "application / vnd.openxmlformats - officedocument.spreadsheetml.sheet";            
+            var contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";            
             
             return File(memoryStream, contentType, upload.Title);
         }
