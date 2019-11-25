@@ -1,5 +1,6 @@
 ﻿using EmailConfirmationServer.Models;
 using EmailConfirmationServerCore.Models;
+using Excel.IO;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -117,13 +118,14 @@ namespace EmailConfirmationServer.Controllers
             var upload = GetUploadById(id);
             var people = upload.People;
             var rows = ExcelRowHelpers.convertToPersonRows(people);
+                                                
+            var memoryStream = new MemoryStream();
+            var excelConverter = new ExcelConverter();
+            excelConverter.Write(rows, memoryStream);
 
-            
-                        
-            var content = new System.IO.MemoryStream(data);
             var contentType = "application / vnd.openxmlformats - officedocument.spreadsheetml.sheet";            
             
-            return File(content, contentType, upload.Title);
+            return File(memoryStream, contentType, upload.Title);
         }
 
         private SheetUpload GetUploadById(int id)
