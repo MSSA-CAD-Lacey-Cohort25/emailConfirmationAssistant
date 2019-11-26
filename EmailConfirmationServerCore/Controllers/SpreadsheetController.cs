@@ -114,19 +114,27 @@ namespace EmailConfirmationServer.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Download(int id)
+        public async Task<IActionResult> Download(int id)
         {
             var upload = GetUploadById(id);
+            
+            if(upload == null)
+            {
+                return View("Upload");
+            }
+                
             var people = upload.People;
             var rows = ExcelRowHelpers.convertToPersonRows(people);
                                                 
             var memoryStream = new MemoryStream();
             var excelConverter = new ExcelConverter();
             excelConverter.Write(rows, memoryStream);
+            memoryStream.Position = 0;
 
-            var contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";            
+            var contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+            var newFile = "EmailConfirmationAssisant_" + upload.Title;
             
-            return File(memoryStream, contentType, upload.Title);
+            return File(memoryStream, contentType, newFile);
         }
 
         private SheetUpload GetUploadById(int id)
