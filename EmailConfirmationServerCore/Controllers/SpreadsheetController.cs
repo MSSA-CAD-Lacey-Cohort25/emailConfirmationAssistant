@@ -34,12 +34,12 @@ namespace EmailConfirmationServer.Controllers
             this.configuration = configuration;
             this.createSheet = createSheet;
         }
-
-        // GET: Spreadsheet
+        
         public ActionResult Index()
         {
             return View();
         }
+
         public ActionResult Upload()
         {
             string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -124,11 +124,10 @@ namespace EmailConfirmationServer.Controllers
             }
                 
             var people = upload.People;
-            var rows = ExcelRowHelpers.convertToPersonRows(people);
-                                                
+           
+                        
             var memoryStream = new MemoryStream();
-            var excelConverter = new ExcelConverter();
-            excelConverter.Write(rows, memoryStream);
+            createSheet.WriteToStream(people, memoryStream);
             memoryStream.Position = 0;
 
             var contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";

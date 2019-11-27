@@ -1,4 +1,5 @@
-﻿using Excel.IO;
+﻿using EmailConfirmationServer.Models;
+using Excel.IO;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -9,31 +10,19 @@ namespace EmailConfirmationServerCore.Models
 {
     public class ExcelRowCreateSheet : ICreateSheet
     {
-        public void Create<T>(IEnumerable<T> rows, string path)
-        {
-            var excelRows = rows as IEnumerable<IExcelRow>;
-            if (excelRows == null)
+
+        public virtual void WriteToStream<T>(IEnumerable<T> rows, Stream outputStream)
+        {            
+            var people = rows as IEnumerable<Person>;
+
+            if (people == null)
                 throw new ArgumentException("rows type must implement IExcelRow", "rows");
 
-            CreateExcelRowSheet(excelRows, path);
+            var excelRows = ExcelRowHelpers.convertToPersonRows(people);
+            convertToExcel(excelRows, outputStream);
         }
 
-        public void Create<T>(IEnumerable<T> rows, Stream outputStream)
-        {
-            var excelRows = rows as IEnumerable<IExcelRow>;
-            if (excelRows == null)
-                throw new ArgumentException("rows type must implement IExcelRow", "rows");
-
-            CreateExcelRowSheet(excelRows, outputStream);
-        }
-
-        protected void CreateExcelRowSheet(IEnumerable<IExcelRow> rows, string path)
-        {                      
-            var excelConverter = new ExcelConverter();
-            excelConverter.Write(rows, path);
-        }
-
-        protected void CreateExcelRowSheet(IEnumerable<IExcelRow> rows, Stream outputStream)
+        protected void convertToExcel(IEnumerable<IExcelRow> rows, Stream outputStream)
         {
             var excelConverter = new ExcelConverter();
             excelConverter.Write(rows, outputStream);

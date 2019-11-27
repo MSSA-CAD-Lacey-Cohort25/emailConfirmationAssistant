@@ -26,7 +26,7 @@ namespace EmailConfirmationServerCore.Models
             return people; 
         }
 
-        public static Person convertRowToPerson(PersonRow row)
+        private static Person convertRowToPerson(PersonRow row)
         {
             Person person = new Person();
             person.Emails = new List<Email>();
@@ -42,24 +42,44 @@ namespace EmailConfirmationServerCore.Models
         public static IEnumerable<PersonRow> convertToPersonRows(IEnumerable<Person> people)
         {
             var personRows = new List<PersonRow>();
-            personRows.Add(
-                new PersonRow
-                {
-                    FirstName = "Isaac",
-                    LastName =  "Flores",
-                    Outlook = "test@outlook.com",
-                    StMartin = "test@stmartin.com",
-                    SheetName = "Sheet1"
-                }    
-            );
+
+            foreach(var person in people)
+            {
+                personRows.Add(converToPersonRow(person));
+            }
+            
             return personRows; 
         }
 
         public static PersonRow converToPersonRow(Person person)
         {
+            if( person == null)
+            {
+                return createEmptyRow();
+            }
+
             var personRow = new PersonRow();
 
+            personRow.SheetName = "Sheet1";
+            personRow.FirstName = person.FirstName;
+            personRow.LastName = person.LastName;
+            var emails = person.Emails.ToList();
+            personRow.Outlook = emails[0].EmailAddress;
+            personRow.StMartin = emails[1].EmailAddress;
+
             return personRow; 
+        }
+
+        private static PersonRow createEmptyRow()
+        {
+            var personRow = new PersonRow();
+            personRow.SheetName = "Sheet1";
+            personRow.FirstName = String.Empty;
+            personRow.LastName = String.Empty;
+            personRow.Outlook = String.Empty;
+            personRow.StMartin = String.Empty;
+
+            return personRow;
         }
 
     }

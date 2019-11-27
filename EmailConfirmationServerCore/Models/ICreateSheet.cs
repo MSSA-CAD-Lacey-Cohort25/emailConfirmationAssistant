@@ -8,9 +8,8 @@ namespace EmailConfirmationServerCore.Models
 {
     public interface ICreateSheet
     {
-        public void Create<T>(IEnumerable<T> rows, string path);
-
-        public void Create<T>(IEnumerable<T> rows, Stream outputStream);
+        
+        public void WriteToStream<T>(IEnumerable<T> rows, Stream outputStream);
 
     }
 }
