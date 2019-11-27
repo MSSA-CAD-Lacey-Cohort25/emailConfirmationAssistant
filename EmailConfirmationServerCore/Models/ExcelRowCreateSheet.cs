@@ -16,7 +16,7 @@ namespace EmailConfirmationServerCore.Models
             var people = rows as IEnumerable<Person>;
 
             if (people == null)
-                throw new ArgumentException("rows type must implement IExcelRow", "rows");
+                throw new ArgumentException("Rows type must implement IExcelRow", "rows");
 
             var excelRows = ExcelRowHelpers.convertToPersonRows(people);
             convertToExcel(excelRows, outputStream);

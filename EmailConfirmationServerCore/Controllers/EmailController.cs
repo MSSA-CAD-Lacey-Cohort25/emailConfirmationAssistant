@@ -9,18 +9,12 @@ namespace EmailConfirmationServer.Controllers
     public class EmailController : Controller
     {
         private IEmailConfirmationContext context;
-
-        //public EmailController()
-        //{
-        //    context = ApplicationDbContext.Create();            
-        //}
-
+    
         public EmailController(IEmailConfirmationContext Context)
         {
             context = Context;
         }
-
-        // GET: Confirm
+    
         public ActionResult Index()
         {
             return RedirectToAction("Index", "Home");
@@ -39,6 +33,7 @@ namespace EmailConfirmationServer.Controllers
                     e.IsConfirmed = true;
                 }
             }
+
             //this saves the e.IsConfirmed = true to the database
             context.SaveChanges();
            

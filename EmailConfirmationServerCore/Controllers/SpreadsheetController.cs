@@ -72,7 +72,7 @@ namespace EmailConfirmationServer.Controllers
                     string webRoot = environment.WebRootPath;
                     string path = Path.Combine(webRoot, Path.GetFileName(file.FileName));
                     await saveFileToRootFolder(path, file);
-                    
+                                        
                     Spreadsheet spreadsheet = new Spreadsheet(path);                    
                     var upload = createNewUpload(userId, spreadsheet, file.FileName);
                     uploads.Add(upload);
@@ -83,7 +83,6 @@ namespace EmailConfirmationServer.Controllers
                     var emailService = new Models.EmailService(spreadsheet, configuration);
                     await emailService.sendConfirmationEmails();                                                           
                     ViewBag.Message = "File uploaded successfully";
-
                 }
                 catch (Exception ex)
                 {
@@ -124,8 +123,7 @@ namespace EmailConfirmationServer.Controllers
             }
                 
             var people = upload.People;
-           
-                        
+                                   
             var memoryStream = new MemoryStream();
             createSheet.WriteToStream(people, memoryStream);
             memoryStream.Position = 0;

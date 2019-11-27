@@ -30,11 +30,14 @@ namespace EmailConfirmationServerCore.Models
             using(XLWorkbook workbook = new XLWorkbook(outputStream))
             {               
                 var workSheet = workbook.Worksheet(1);
+
+                //Transpose rows to columns. This is required because opening the sheet as an XLWorkbooks switches the rows to columns.
                 tranposeUsedRange(workSheet);
+
                 var firstRow = workSheet.FirstRow();
                 var rowsAfterHeader = workSheet.Rows().Skip(1);
-
                 var rowsAndEmails = people.Zip(rowsAfterHeader, (p, r) => new { Emails = p.Emails, Row = r });
+
                 foreach (var emailRow in rowsAndEmails)
                 {
                     var emails = emailRow.Emails;
@@ -44,7 +47,6 @@ namespace EmailConfirmationServerCore.Models
                         highlightEmailCell(email, row);
                     }
                 }
-
                
                 workSheet.Columns().AdjustToContents();            
                 workbook.Save();
