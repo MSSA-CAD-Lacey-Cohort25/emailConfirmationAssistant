@@ -21,7 +21,7 @@
                         if (first)
                         {
                             <li class="nav-item">
-                                <a class="nav-link active" onclick="loadConfirmedSpreadsheet()" href="#" id=@sheet.Id>
+                                <a class="nav-link active" onclick="onSheetSelect()" href="#" id=@sheet.Id>
                                     @sheet.Title
                                 </a>
                             </li>
@@ -30,7 +30,7 @@
                         else
                         {
                             <li class="nav-item">
-                                <a class="nav-link" onclick="loadConfirmedSpreadsheet()" href="#" id=@sheet.Id>
+                                <a class="nav-link" onclick="onSheetSelect()" href="#" id=@sheet.Id>
                                     @sheet.Title
                                 </a>
                             </li>
@@ -59,8 +59,12 @@
                 </div>
                 <div class="row" style="margin-top:10px;">
                     <div>
-                        <button class="btn btn-primary" style ="background-color: #288A52;" id="unconfirmed">Show Unconfirmed</button>
-                        <button class="btn btn-primary" style ="background-color: #288A52;" id="confirmed"> Show Confirmed </button>
+                        <button class="btn btn-primary" style="background-color: #288A52;" id="unconfirmed">Show Unconfirmed</button>
+                        <button class="btn btn-primary" style="background-color: #288A52;" id="confirmed"> Show Confirmed </button>
+                        <form asp-controller="Spreadsheet" asp-action="Download" method="post">
+                            <input type="hidden" name="id" value="" id="downloadInput"/>
+                            <button class="btn btn-primary" style="background-color: #288A52; type="submit">Download</button>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -87,9 +91,13 @@
             var uploadId = $(".nav-link.active").prop("id")              
             $("#tableHolder").load('@Url.Action("LoadConfirmedSpreadsheet")', { id: uploadId })
             })
-     
+
+        var setDownloadFormInputValue = function (value) {
+            $("#downloadInput").prop("value", value)
+        }
+
         //this jquery handles the show confirmed button event
-        var loadConfirmedSpreadsheet = function () {
+        var onSheetSelect = function () {
             $(document).ready(function () {
                 $(".nav-link").click(function () {                    
 
@@ -97,6 +105,8 @@
                     $(this).addClass("active")
                     
                     var uploadId = this.id
+
+                    setDownloadFormInputValue(uploadId)
                                          
                     $("#tableHolder").load('@Url.Action("LoadUnConfirmedSpreadsheet")', { id: uploadId }, function (response, status, http) {               
                     })
@@ -104,14 +114,7 @@
             })
         }
 
-        //var setFirstSpreadSheetAsActive = function () {
-        //    let firstListItem = $("#sheetSideNavBar:first-child")
-        //    let firstAnchor = firstListItem.find("li:first").find("a:first");
-        //    console.log(firstAnchor.prop("id"))
-        //    firstAnchor.addClass("active")
-        //}
-
-        //setFirstSpreadSheetAsActive()
-
+        onSheetSelect()
+        
     </script>
 }

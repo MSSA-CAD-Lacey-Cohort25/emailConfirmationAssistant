@@ -64,60 +64,6 @@ namespace EmailConfirmationServer.Models
             person.Emails.Add(new Email(row.StMartin));
 
             return person; 
-        }
-
-        // This function updates the excel file and changes cell to green after an email confirm takes place
-        public void ConfirmEmail(String email)
-        {
-            try
-            {
-                //openSheet();
-                //Excel.Range range = FindEmailCell(email);
-                //ChangeCellColor(range, Excel.XlRgbColor.rgbLightGreen);
-                
-            }        
-            finally
-            {
-               
-            }
-            
-        }
-
-        // this function finds the correct email to update in the spreadsheet
-        //public Excel.Range FindEmailCell(String email)
-        //{
-        //    int column = 0;
-
-        //    if (email.Contains("@outlook.com"))
-        //    {
-              
-        //        column = range.Cells.EntireRow.Find("Outlook").Column;
-
-        //    }
-        //    else
-        //    {
-        //        column = range.Cells.EntireRow.Find("StMartin").Column;
-        //    }
-
-        //    int rowCount = range.Rows.Count;
-
-
-        //    Excel.Range cell = null;
-        //    for (int row = 2; row <= rowCount; row++)
-        //    {
-        //        if (email.Equals(range.Cells[row, column].ToString()))
-        //        {
-        //            cell = (Excel.Range) range.Cells[row, column];
-        //            break;
-        //        }
-        //    }
-        //    return cell;
-        //}
-
-        //public void ChangeCellColor(Excel.Range range, Excel.XlRgbColor color)
-        //{
-        //    range.Interior.Color = color;
-        //}
-       
+        }             
     }
 }
