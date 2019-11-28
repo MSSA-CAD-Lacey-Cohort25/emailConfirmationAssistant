@@ -6,7 +6,7 @@
 
 <div class="container-fluid">
     <div class="row">
-        <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+        <nav class="col-md-2 d-none d-md-block bg-light sidebar text-center">
             <div class="sidebar-sticky">
                 <h4 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
                     <span>Saved Spreadsheets</span>
@@ -14,29 +14,37 @@
                         <span data-feather="plus-circle"></span>
                     </a>
                 </h4>
-                <ul class="nav flex-column mb-2" id="sheetSideNavBar">
+                <div class="nav flex-column mb-2" id="sheetSideNavBar">
                     @{ bool first = true; }
                     @foreach (SheetUpload sheet in Model)
                     {
                         if (first)
                         {
                             <li class="nav-item">
-                                <a class="nav-link active" onclick="onSheetSelect()" href="#" id=@sheet.Id>
+                                <a class="nav-link active" onclick="loadConfirmedSpreadsheet()" href="#" id=@sheet.Id>
                                     @sheet.Title
                                 </a>
-                            </li>
+                            </div>
                             first = false;
+                            <form asp-action="DeleteSpreadsheet" asp-controller="Spreadsheet" method="post">
+                                <input type="hidden" name="id" value="@sheet.Id" />
+                                <button type="submit" class="btn btn-primary btn small" style ="background-color: #288A52">Delete</button>
+                            </form>
                         }
                         else
                         {
                             <li class="nav-item">
-                                <a class="nav-link" onclick="onSheetSelect()" href="#" id=@sheet.Id>
+                                <a class="nav-link" onclick="loadConfirmedSpreadsheet()" href="#" id=@sheet.Id>
                                     @sheet.Title
                                 </a>
-                            </li>
+                            </div>
+                            <form asp-action="DeleteSpreadsheet" asp-controller="Spreadsheet" method="post">
+                                <input type="hidden" name="id" value="@sheet.Id" />
+                                <button type="submit" class="btn btn-primary btn small" style ="background-color: #288A52" >Delete</button>
+                            </form>
                         }
                     }
-                </ul>
+                </div>
             </div>
         </nav>
 
