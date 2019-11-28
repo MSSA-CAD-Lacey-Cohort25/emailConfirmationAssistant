@@ -14,7 +14,7 @@
                         <span data-feather="plus-circle"></span>
                     </a>
                 </h4>
-                <div class="nav flex-column mb-2" id="sheetSideNavBar">
+                <li class="nav flex-column mb-2" id="sheetSideNavBar">
                     @{ bool first = true; }
                     @foreach (SheetUpload sheet in Model)
                     {
@@ -24,12 +24,13 @@
                                 <a class="nav-link active" onclick="loadConfirmedSpreadsheet()" href="#" id=@sheet.Id>
                                     @sheet.Title
                                 </a>
-                            </div>
+                            </li>                            
                             first = false;
                             <form asp-action="DeleteSpreadsheet" asp-controller="Spreadsheet" method="post">
                                 <input type="hidden" name="id" value="@sheet.Id" />
                                 <button type="submit" class="btn btn-primary btn small" style ="background-color: #288A52">Delete</button>
                             </form>
+                            
                         }
                         else
                         {
@@ -37,7 +38,7 @@
                                 <a class="nav-link" onclick="loadConfirmedSpreadsheet()" href="#" id=@sheet.Id>
                                     @sheet.Title
                                 </a>
-                            </div>
+                            </li>
                             <form asp-action="DeleteSpreadsheet" asp-controller="Spreadsheet" method="post">
                                 <input type="hidden" name="id" value="@sheet.Id" />
                                 <button type="submit" class="btn btn-primary btn small" style ="background-color: #288A52" >Delete</button>
