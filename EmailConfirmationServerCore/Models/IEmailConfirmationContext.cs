@@ -17,5 +17,7 @@ namespace EmailConfirmationServer.Models
         IQueryable<Email> FindEmailById(int id);
         IQueryable<SheetUpload> FindUploadsByUserId(string id);
         void Add<T>(T entity) where T : class;
+
+        public void Delete(SheetUpload upload);
     }
 }

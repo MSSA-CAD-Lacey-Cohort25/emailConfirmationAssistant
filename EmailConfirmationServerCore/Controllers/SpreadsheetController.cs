@@ -157,5 +157,23 @@ namespace EmailConfirmationServer.Controllers
 
             return View("_ConfirmedTablePartial", people);
         }
+
+        [HttpPost]
+        public ActionResult DeleteSpreadsheet(int id)
+        {
+
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var uploads = context.FindUploadsByUserId(userId).ToList();
+
+            var upload = (from sheetUpload in uploads
+                          where sheetUpload.Id == id
+                          select sheetUpload).FirstOrDefault();
+
+            context.Delete(upload);
+            context.SaveChanges();
+
+
+            return RedirectToAction("Upload");
+        }
     }
 }

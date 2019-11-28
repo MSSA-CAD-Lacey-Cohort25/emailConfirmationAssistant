@@ -38,6 +38,6 @@ namespace EmailConfirmationServerCore
              {
                  webBuilder.UseStartup<Startup>();
              });
-        private static string GetKeyVaultEndpoint() => "https://emailconfirmationkv.vault.azure.net/";
+        private static string GetKeyVaultEndpoint() => "https://emailconfirmationvault.vault.azure.net/";
     }
 }
