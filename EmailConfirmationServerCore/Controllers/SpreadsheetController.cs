@@ -153,12 +153,14 @@ namespace EmailConfirmationServer.Controllers
 
         public ActionResult LoadSpreadsheet(int id, bool showConfirmed=false)
         {
-            var upload = GetUploadById(id);
-
+            var upload = GetUploadById(id);         
+            
             if (upload == null)
             {
                 return RedirectToAction("Upload");
             }
+
+            ViewBag.ShowConfirmed = showConfirmed;
 
             return View("_SpreadsheetPartial", upload);
         }

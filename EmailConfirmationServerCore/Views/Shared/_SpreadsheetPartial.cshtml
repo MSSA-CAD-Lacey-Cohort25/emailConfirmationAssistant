@@ -7,7 +7,15 @@
 
 <div class="row">
     <div class="col" id="tableDiv">
-        <h2>Confirmed Emails</h2>
+
+        @if (ViewBag.ShowConfirmed)
+        {
+            <h2>Confirmed Emails</h2>
+        }
+        else
+        {
+            <h2>UnConfirmed Emails</h2>
+        }
         <table style="width:50%; float: left">
             <thead class="aligntop">
                 <tr>
@@ -20,36 +28,73 @@
             <tbody>
                 @if (Model != null && Model.People != null)
                 {
-                    foreach (var person in Model.People)
+                    if (ViewBag.ShowConfirmed)
                     {
-
-                        bool bothEmailsConfirmed = false;
-
-                        foreach (var email in person.Emails)
+                        foreach (var person in Model.People)
                         {
-                            if (!email.IsConfirmed)
-                            {
-                                bothEmailsConfirmed = true;
 
+                            bool bothEmailsConfirmed = false;
+
+                            foreach (var email in person.Emails)
+                            {
+                                if (email.IsConfirmed)
+                                {
+                                    bothEmailsConfirmed = true;
+
+                                }
+                            }
+
+                            if (bothEmailsConfirmed == true)
+                            {
+                                <tr>
+                                    <td>@person.FirstName</td>
+                                    <td>@person.LastName</td>
+
+                                    @foreach (var email in person.Emails)
+                                    {
+                                        if (email.IsConfirmed)
+                                        {
+
+                                            <td>@email.EmailAddress</td>
+                                        }
+                                    }
+                                </tr>
                             }
                         }
-                        if (bothEmailsConfirmed == true)
+                    }
+                    else
+                    {
+                        foreach (var person in Model.People)
                         {
-                            <tr>
-                                <td>@person.FirstName</td>
-                                <td>@person.LastName</td>
 
-                                @foreach (var email in person.Emails)
+                            bool bothEmailsConfirmed = false;
+
+                            foreach (var email in person.Emails)
+                            {
+                                if (!email.IsConfirmed)
                                 {
-                                    if (!email.IsConfirmed)
-                                    {
+                                    bothEmailsConfirmed = true;
 
-                                        <td>@email.EmailAddress</td>
-                                    }
                                 }
-                            </tr>
-                        }
+                            }
 
+                            if (bothEmailsConfirmed == true)
+                            {
+                                <tr>
+                                    <td>@person.FirstName</td>
+                                    <td>@person.LastName</td>
+
+                                    @foreach (var email in person.Emails)
+                                    {
+                                        if (!email.IsConfirmed)
+                                        {
+
+                                            <td>@email.EmailAddress</td>
+                                        }
+                                    }
+                                </tr>
+                            }
+                        }
                     }
                 }
             </tbody>
@@ -59,8 +104,8 @@
 
 <div class="row" style="margin-top:10px;">
     <div>
-        <button class="btn btn-primary" style="background-color: #288A52;" id="unconfirmed" value=@Model.Id>Show Unconfirmed</button>
-        <button class="btn btn-primary" style="background-color: #288A52;" id="confirmed" value=@Model.Id> Show Confirmed </button>
+        <button class="btn btn-primary" style="background-color: #288A52;" id="showUnconfirmedButton" value=@Model.Id>Show Unconfirmed</button>
+        <button class="btn btn-primary" style="background-color: #288A52;" id="showConfirmedButton" value=@Model.Id> Show Confirmed </button>
         <form asp-controller="Spreadsheet" asp-action="Download" method="post">
             <input type="hidden" name="id" value=@Model.Id id="downloadInput" />
             <button class="btn btn-primary" style="background-color: #288A52; type="submit">Download</button>

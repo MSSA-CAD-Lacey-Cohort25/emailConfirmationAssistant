@@ -62,9 +62,8 @@
 
             <h2>@ViewBag.Message</h2>
 
-            <div class="container" id="tableHolder">               
-            </div>
-
+            <div class="container" id="tableHolder">
+            </div>            
         </main>
     </div>
 </div>
@@ -73,28 +72,29 @@
 @section Scripts
 {
     <script>
-        //this jquery handles the show unconfirmed button event
-        
-        $("#unconfirmed").click(function () {
-            var uploadId = $(this).prop("value")
-            console.log("unconfirmed: " + uploadId)
-            $("#tableHolder").load('@Url.Action("LoadUnconfirmedSpreadsheet")', { id: uploadId })
-            })
-        
-
-        //this jquery handles the show confirmed button event
-                  
-        $("#confirmed").click(function () {                 
-            var uploadId = $(this).prop("value")             
-            console.log("confirmed: " + uploadId)
-            $("#tableHolder").load('@Url.Action("LoadConfirmedSpreadsheet")', { id: uploadId })
+   
+        $(function () {
+            $('body').on('click', "#showUnconfirmedButton", function () {                
+                var uploadId = $(this).prop("value")
+                console.log("unconfirmed: " + uploadId)
+                $("#tableHolder").load('@Url.Action("LoadSpreadsheet")', { id: uploadId })
             })
 
+        })
+
+        $(function () {
+            $('body').on('click', "#showConfirmedButton", function () {                
+                var uploadId = $(this).prop("value")
+                console.log("confirmed: " + uploadId)
+                $("#tableHolder").load('@Url.Action("LoadSpreadsheet")', { id: uploadId, showConfirmed: true })
+            })
+
+        })
+ 
         var setDownloadFormInputValue = function (value) {
             $("#downloadInput").prop("value", value)
         }
-
-        //this jquery handles the show confirmed button event
+      
         var onSheetSelect = function () {
             $(document).ready(function () {
                 $(".nav-link").click(function () {                    
@@ -103,7 +103,7 @@
                     $(this).addClass("active")
                     
                     var uploadId = this.id
-
+                    
                     //setDownloadFormInputValue(uploadId)
                                          
                     $("#tableHolder").load('@Url.Action("LoadSpreadsheet")', { id: uploadId })
