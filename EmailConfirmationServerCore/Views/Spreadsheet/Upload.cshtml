@@ -15,35 +15,44 @@
                     </a>
                 </h4>
                 <div class="nav flex-column mb-2" id="sheetSideNavBar">
+
                     @{ bool first = true; }
                     @foreach (SheetUpload sheet in Model)
                     {
                         if (first)
                         {
-                            <div class="nav-item">
-                                <a class="nav-link active" onclick="loadConfirmedSpreadsheet()" href="#" id=@sheet.Id>
-                                    @sheet.Title
-                                </a>
-                            </div>
-                            first = false;
-                            <form asp-action="DeleteSpreadsheet" asp-controller="Spreadsheet" method="post">
-                                <input type="hidden" name="id" value="@sheet.Id" />
-                                <button type="submit" class="btn btn-primary btn small" style ="background-color: #288A52" 
-                                        onclick="return confirm('Are you sure you want to delete the @sheet.Title spreadsheet?')">Delete</button>
-                            </form>
+                            <div style="display:flex; flex-direction: row;">
+                                <div class="nav-item">
+                                    <a class="nav-link active" style="color:black" onclick="loadConfirmedSpreadsheet()" href="#" id=@sheet.Id>
+                                        @sheet.Title
+                                    </a>
+                                </div>
+                                @{first = false;}
+                                <form asp-action="DeleteSpreadsheet" asp-controller="Spreadsheet" method="post">
+                                    <input type="hidden" name="id" value="@sheet.Id" />
+                                    <button type="submit" onclick="return confirm('Are you sure you want to delete the @sheet.Title spreadsheet?')">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </form>
+                            </div>                          
+                            
                         }
                         else
                         {
-                            <div class="nav-item">
-                                <a class="nav-link" onclick="loadConfirmedSpreadsheet()" href="#" id=@sheet.Id>
-                                    @sheet.Title
-                                </a>
-                            </div>
-                            <form asp-action="DeleteSpreadsheet" asp-controller="Spreadsheet" method="post">
-                                <input type="hidden" name="id" value="@sheet.Id" />
-                                <button type="submit" class="btn btn-primary btn small" style ="background-color: #288A52" 
-                                        onclick="return confirm('Are you sure you want to delete the @sheet.Title spreadsheet?')">Delete</button>
-                            </form>
+                            <div style="display:flex; flex-direction: row">
+                                <div class="nav-item">
+                                    <a class="nav-link" style="color:black" onclick="loadConfirmedSpreadsheet()" href="#" id=@sheet.Id>
+                                        @sheet.Title                                        
+                                    </a>
+                                </div>
+                                <form asp-action="DeleteSpreadsheet" asp-controller="Spreadsheet" method="post">
+                                    <input type="hidden" name="id" value="@sheet.Id" />
+                                    <button type="submit" onclick="return confirm('Are you sure you want to delete the @sheet.Title spreadsheet?')">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </form>
+                            </div>                            
+                                
                         }
                     }
                 </div>
@@ -113,6 +122,8 @@
                 })
             })
         }
+
+
 
         //var setFirstSpreadSheetAsActive = function () {
         //    let firstListItem = $("#sheetSideNavBar:first-child")
