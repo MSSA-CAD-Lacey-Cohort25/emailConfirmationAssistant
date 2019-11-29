@@ -112,11 +112,11 @@
 
 <div class="row" style="margin-top:10px;">
     <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups to show different emails and download spreadsheet">
-        <div class="btn-group mr-10" role="group" aria-label="First group">
+        <div class="btn-group mr-2" role="group" aria-label="First group">
             <button class="btn btn-primary" style="background-color: #288A52;" id="showUnconfirmedButton" value=@Model.Id>Show Unconfirmed</button>
             <button class="btn btn-primary" style="background-color: #288A52;" id="showConfirmedButton" value=@Model.Id> Show Confirmed </button>
         </div>
-        <div class="btn-group mr-2 align-self-end" role="group" aria-label="Second group">
+        <div class="btn-group mr-2 float-right" role="group" aria-label="Second group">
             <form asp-controller="Spreadsheet" asp-action="Download" method="post">
                 <input type="hidden" name="id" value=@Model.Id id="downloadInput" />
                 <button class="btn btn-primary" style="background-color: #288A52; type="submit">Download</button>
