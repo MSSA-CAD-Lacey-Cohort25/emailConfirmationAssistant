@@ -69,6 +69,12 @@ namespace EmailConfirmationServerCore.Data
                             
             return uploads;
         }
+
+        public void Delete(SheetUpload upload)
+        {
+            Remove(upload);
+            SaveChanges();
+        }
     }
 }
 

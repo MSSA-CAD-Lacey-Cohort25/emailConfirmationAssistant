@@ -73,11 +73,6 @@ namespace EmailConfirmationServer.Models
 
             [JsonProperty("id")]
             public int Id { get; set; }
-        }
-
-        public void ConfirmEmail(String email)
-        {
-            Sheet.ConfirmEmail(email);
-        }
+        }     
     }
 }
