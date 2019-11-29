@@ -16,13 +16,13 @@
         {
             <h2>UnConfirmed Emails</h2>
         }
-        <table style="width:50%; float: left">
+        <table id="emailsTable" class="table table-striped table-bordered" style="width:100%; float: left">
             <thead class="aligntop">
                 <tr>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>Outlook Email</th>
-                    <th>St Martin Email</th>
+                    <th style="white-space: normal;">First Name</th>
+                    <th style="white-space: normal;">Last Name</th>
+                    <th style="white-space: normal;">Outlook Email</th>
+                    <th style="white-space: normal;">St Martin Email</th>
                 </tr>
             </thead>
             <tbody>
@@ -47,8 +47,8 @@
                             if (bothEmailsConfirmed == true)
                             {
                                 <tr>
-                                    <td>@person.FirstName</td>
-                                    <td>@person.LastName</td>
+                                    <td style="white-space: normal;">@person.FirstName</td>
+                                    <td style="white-space: normal;">@person.LastName</td>
 
                                     @foreach (var email in person.Emails)
                                     {
@@ -56,6 +56,10 @@
                                         {
 
                                             <td>@email.EmailAddress</td>
+                                        }
+                                        else
+                                        {
+                                            <td>@String.Empty</td>
                                         }
                                     }
                                 </tr>
@@ -81,15 +85,19 @@
                             if (bothEmailsConfirmed == true)
                             {
                                 <tr>
-                                    <td>@person.FirstName</td>
-                                    <td>@person.LastName</td>
+                                    <td style="white-space: normal;">@person.FirstName</td>
+                                    <td style="white-space: normal;">@person.LastName</td>
 
                                     @foreach (var email in person.Emails)
                                     {
                                         if (!email.IsConfirmed)
                                         {
 
-                                            <td>@email.EmailAddress</td>
+                                            <td style="white-space: normal;">@email.EmailAddress</td>
+                                        }
+                                        else
+                                        {
+                                            <td>@String.Empty</td>
                                         }
                                     }
                                 </tr>
@@ -103,16 +111,32 @@
 </div>
 
 <div class="row" style="margin-top:10px;">
-    <div>
-        <button class="btn btn-primary" style="background-color: #288A52;" id="showUnconfirmedButton" value=@Model.Id>Show Unconfirmed</button>
-        <button class="btn btn-primary" style="background-color: #288A52;" id="showConfirmedButton" value=@Model.Id> Show Confirmed </button>
-        <form asp-controller="Spreadsheet" asp-action="Download" method="post">
-            <input type="hidden" name="id" value=@Model.Id id="downloadInput" />
-            <button class="btn btn-primary" style="background-color: #288A52; type="submit">Download</button>
-        </form>
+    <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups to show different emails and download spreadsheet">
+        <div class="btn-group mr-2" role="group" aria-label="First group">
+            <button class="btn btn-primary" style="background-color: #288A52;" id="showUnconfirmedButton" value=@Model.Id>Show Unconfirmed</button>
+            <button class="btn btn-primary" style="background-color: #288A52;" id="showConfirmedButton" value=@Model.Id> Show Confirmed </button>
+        </div>
+        <div class="btn-group float-right" role="group" aria-label="Second group">
+            <form asp-controller="Spreadsheet" asp-action="Download" method="post">
+                <input type="hidden" name="id" value=@Model.Id id="downloadInput" />
+                <button class="btn btn-primary" style="background-color: #288A52; type="submit">Download</button>
+            </form>
+        </div>        
     </div>
 </div>
 
 
-
+<script>
+    $(document).ready(function () {        
+        $('#emailsTable').DataTable({
+             retrieve: true,            
+            searching: false,
+            info: false,
+            ordering: false,                  
+            "language": {
+                "emptyTable": "No emails to show"
+            },
+        })
+    })
+</script>
 
