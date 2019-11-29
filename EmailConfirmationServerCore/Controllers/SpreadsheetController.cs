@@ -119,7 +119,7 @@ namespace EmailConfirmationServer.Controllers
             
             if(upload == null)
             {
-                return View("Upload");
+                return RedirectToAction("Upload");
             }
                 
             var people = upload.People;
@@ -151,38 +151,18 @@ namespace EmailConfirmationServer.Controllers
             return upload;
         }
 
-        public ActionResult LoadUnconfirmedTable()
-        {
-            var people = context.People.Include(c => c.Emails);
-
-            return View("_UnconfirmedTablePartial", people);
-        }
-
-        public ActionResult LoadConfirmedTable()
-        {
-            var people = context.People.Include(c => c.Emails);
-
-            return View("_ConfirmedTablePartial", people);
-        }
-
-        public ActionResult LoadUnconfirmedSpreadsheet(int id)
-        {           
-            var upload = GetUploadById(id);
-
-            var people = upload.People.AsQueryable();
-
-            return View("_UnconfirmedTablePartial", people);
-        }
-
-        public ActionResult LoadConfirmedSpreadsheet(int id)
+        public ActionResult LoadSpreadsheet(int id, bool showConfirmed=false)
         {
             var upload = GetUploadById(id);
 
-            var people = upload.People.AsQueryable();
+            if (upload == null)
+            {
+                return RedirectToAction("Upload");
+            }
 
-            return View("_ConfirmedTablePartial", people);
+            return View("_SpreadsheetPartial", upload);
         }
-
+   
         [HttpPost]
         public ActionResult DeleteSpreadsheet(int id)
         {

@@ -104,14 +104,12 @@
                     
                     var uploadId = this.id
 
-                    setDownloadFormInputValue(uploadId)
+                    //setDownloadFormInputValue(uploadId)
                                          
-                    $("#tableHolder").load('@Url.Action("LoadUnConfirmedSpreadsheet")', { id: uploadId }, function (response, status, http) {               
-                    })
+                    $("#tableHolder").load('@Url.Action("LoadSpreadsheet")', { id: uploadId })
                 })
             })
         }
-
         onSheetSelect()
         
     </script>

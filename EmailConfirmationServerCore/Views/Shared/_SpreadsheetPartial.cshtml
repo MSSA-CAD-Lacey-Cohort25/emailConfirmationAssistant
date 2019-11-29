@@ -1,5 +1,5 @@
 ﻿@using EmailConfirmationServer.Models
-@model IQueryable<Person>
+@model SheetUpload
 @{
     ViewBag.Title = "Manage Spreadsheet";
     Layout = null;
@@ -18,16 +18,16 @@
                 </tr>
             </thead>
             <tbody>
-                @if (Model != null)
+                @if (Model != null && Model.People != null)
                 {
-                    foreach (var person in Model)
+                    foreach (var person in Model.People)
                     {
 
                         bool bothEmailsConfirmed = false;
 
                         foreach (var email in person.Emails)
                         {
-                            if (email.IsConfirmed)
+                            if (!email.IsConfirmed)
                             {
                                 bothEmailsConfirmed = true;
 
@@ -41,7 +41,7 @@
 
                                 @foreach (var email in person.Emails)
                                 {
-                                    if (email.IsConfirmed)
+                                    if (!email.IsConfirmed)
                                     {
 
                                         <td>@email.EmailAddress</td>
@@ -59,10 +59,10 @@
 
 <div class="row" style="margin-top:10px;">
     <div>
-        <button class="btn btn-primary" style="background-color: #288A52;" id="unconfirmed" value=@Model.First().UploadId>Show Unconfirmed</button>
-        <button class="btn btn-primary" style="background-color: #288A52;" id="confirmed" value=@Model.First().UploadId> Show Confirmed </button>
+        <button class="btn btn-primary" style="background-color: #288A52;" id="unconfirmed" value=@Model.Id>Show Unconfirmed</button>
+        <button class="btn btn-primary" style="background-color: #288A52;" id="confirmed" value=@Model.Id> Show Confirmed </button>
         <form asp-controller="Spreadsheet" asp-action="Download" method="post">
-            <input type="hidden" name="id" value=@Model.First().UploadId id="downloadInput" />
+            <input type="hidden" name="id" value=@Model.Id id="downloadInput" />
             <button class="btn btn-primary" style="background-color: #288A52; type="submit">Download</button>
         </form>
     </div>

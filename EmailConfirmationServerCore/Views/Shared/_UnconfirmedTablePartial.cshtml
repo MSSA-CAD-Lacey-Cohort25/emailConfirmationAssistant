@@ -60,10 +60,10 @@
 
 <div class="row" style="margin-top:10px;">
     <div>
-        <button class="btn btn-primary" style="background-color: #288A52;" id="unconfirmed" value="@Model.First().UploadId">Show Unconfirmed</button>
-        <button class="btn btn-primary" style="background-color: #288A52;" id="confirmed" value="@Model.First().UploadId"> Show Confirmed </button>
+        <button class="btn btn-primary" style="background-color: #288A52;" id="unconfirmed" value=@Model.First().UploadId>Show Unconfirmed</button>
+        <button class="btn btn-primary" style="background-color: #288A52;" id="confirmed" value=@Model.First().UploadId> Show Confirmed </button>
         <form asp-controller="Spreadsheet" asp-action="Download" method="post">
-            <input type="hidden" name="id" value="@Model.First().UploadId" id="downloadInput" />
+            <input type="hidden" name="id" value=@Model.First().UploadId id="downloadInput" />
             <button class="btn btn-primary" style="background-color: #288A52; type="submit">Download</button>
         </form>
     </div>
