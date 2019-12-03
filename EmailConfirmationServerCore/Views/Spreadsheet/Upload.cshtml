@@ -6,7 +6,7 @@
 
 <div class="container-fluid">
     <div class="row">
-        <nav class="col-md-2 d-none d-md-block bg-light sidebar text-center">
+        <nav class="col-md-2 d-none d-md-block bg-light sidebar text-center" >
             <div class="sidebar-sticky">
                 <h4 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
                     <span>Saved Spreadsheets</span>
@@ -14,54 +14,66 @@
                         <span data-feather="plus-circle"></span>
                     </a>
                 </h4>
-                <div class="nav flex-column mb-2" id="sheetSideNavBar">
+                
+
+                <div class="nav flex-column mb-4" id="sheetSideNavBar">
+
                     @{ bool first = true; }
                     @foreach (SheetUpload sheet in Model)
                     {
                         if (first)
                         {
-                            <div class="nav-item">
-                                <a class="nav-link active" onclick="loadConfirmedSpreadsheet()" href="#" id=@sheet.Id>
-                                    @sheet.Title
-                                </a>
+                            <div style="display:flex; flex-direction: row;">
+                                <div class="nav-item">
+                                    <a class="nav-link active" style="color:black" onclick="onSheetSelect()" href="#" id=@sheet.Id>
+                                        @sheet.Title
+                                    </a>
+                                </div>
+                                @{first = false;}
+                                <form asp-action="DeleteSpreadsheet" asp-controller="Spreadsheet" method="post">
+                                    <input type="hidden" name="id" value="@sheet.Id" />
+                                    <button type="submit" onclick="return confirm('Are you sure you want to delete the @sheet.Title spreadsheet?')">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </form>
                             </div>
-                            first = false;
-                            <form asp-action="DeleteSpreadsheet" asp-controller="Spreadsheet" method="post">
-                                <input type="hidden" name="id" value="@sheet.Id" />
-                                <button type="submit" class="btn btn-primary btn small" style ="background-color: #288A52">Delete</button>
-                            </form>
+
                         }
                         else
                         {
-                            <div class="nav-item">
-                                <a class="nav-link" onclick="loadConfirmedSpreadsheet()" href="#" id=@sheet.Id>
-                                    @sheet.Title
-                                </a>
+                            <div style="display:flex; flex-direction: row">
+                                <div class="nav-item">
+                                    <a class="nav-link" style="color:black" onclick="onSheetSelect()" href="#" id=@sheet.Id>
+                                        @sheet.Title
+                                    </a>
+                                </div>
+                                <form asp-action="DeleteSpreadsheet" asp-controller="Spreadsheet" method="post">
+                                    <input type="hidden" name="id" value="@sheet.Id" />
+                                    <button type="submit" onclick="return confirm('Are you sure you want to delete the @sheet.Title spreadsheet?')">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </form>
                             </div>
-                            <form asp-action="DeleteSpreadsheet" asp-controller="Spreadsheet" method="post">
-                                <input type="hidden" name="id" value="@sheet.Id" />
-                                <button type="submit" class="btn btn-primary btn small" style ="background-color: #288A52" >Delete</button>
-                            </form>
                         }
                     }
-                </ul>                
+                </div>
             </div>
         </nav>
 
-        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4 ">
             <h2 id="title">Please upload your spreadsheet</h2>
             @*Spreadsheet refers to spreadsheetController and Upload is the action method*@
             @using (Html.BeginForm("Upload", "Spreadsheet", FormMethod.Post, new { enctype = "multipart/form-data" }))
-            {
+            {              
                 <label for="file">Upload File:</label>
                 <input type="file" name="file" id="file" /><br>
-                <input type="submit" value="Submit" /><br>
+                <input type="submit" value="Submit" class="btn btn-primary" /><br>          
             }
 
             <h2>@ViewBag.Message</h2>
 
             <div class="container" id="tableHolder">
-            </div>            
+            </div>
         </main>
     </div>
 </div>
@@ -70,9 +82,9 @@
 @section Scripts
 {
     <script>
-   
+
         $(function () {
-            $('body').on('click', "#showUnconfirmedButton", function () {                
+            $('body').on('click', "#showUnconfirmedButton", function () {
                 var uploadId = $(this).prop("value")
                 console.log("unconfirmed: " + uploadId)
                 $("#tableHolder").load('@Url.Action("LoadSpreadsheet")', { id: uploadId })
@@ -81,41 +93,35 @@
         })
 
         $(function () {
-            $('body').on('click', "#showConfirmedButton", function () {                
+            $('body').on('click', "#showConfirmedButton", function () {
                 var uploadId = $(this).prop("value")
                 console.log("confirmed: " + uploadId)
                 $("#tableHolder").load('@Url.Action("LoadSpreadsheet")', { id: uploadId, showConfirmed: true })
             })
 
         })
- 
+
         var setDownloadFormInputValue = function (value) {
             $("#downloadInput").prop("value", value)
         }
-      
+
         var onSheetSelect = function () {
             $(document).ready(function () {
-                $(".nav-link").click(function () {                    
+                $(".nav-link").click(function () {
 
                     $(".nav-link").removeClass("active")
                     $(this).addClass("active")
-                    
+
                     var uploadId = this.id
-                    
+
                     //setDownloadFormInputValue(uploadId)
-                                         
+
                    $("#tableHolder").load('@Url.Action("LoadSpreadsheet")', { id: uploadId })
                 })
             })
         }
+        onSheetSelect()
 
-        //var setFirstSpreadSheetAsActive = function () {
-        //    let firstListItem = $("#sheetSideNavBar:first-child")
-        //    let firstAnchor = firstListItem.find("li:first").find("a:first");
-        //    console.log(firstAnchor.prop("id"))
-        //    firstAnchor.addClass("active")
-        //}
 
-            
     </script>
 }
