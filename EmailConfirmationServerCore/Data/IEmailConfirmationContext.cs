@@ -1,10 +1,11 @@
-﻿using System;
+﻿using EmailConfirmationServer.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EmailConfirmationServer.Models
+namespace EmailConfirmationServer.Data
 {
     public interface IEmailConfirmationContext
     {

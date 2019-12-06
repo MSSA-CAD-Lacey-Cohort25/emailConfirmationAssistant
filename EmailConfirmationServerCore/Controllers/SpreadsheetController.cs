@@ -1,4 +1,5 @@
-﻿using EmailConfirmationServer.Models;
+﻿using EmailConfirmationServer.Data;
+using EmailConfirmationServer.Models;
 using EmailConfirmationServerCore.Models;
 using Excel.IO;
 using Microsoft.AspNetCore.Authorization;

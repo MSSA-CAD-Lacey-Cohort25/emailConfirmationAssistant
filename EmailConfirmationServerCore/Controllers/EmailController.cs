@@ -1,4 +1,5 @@
-﻿using EmailConfirmationServer.Models;
+﻿using EmailConfirmationServer.Data;
+using EmailConfirmationServer.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting.Internal;
