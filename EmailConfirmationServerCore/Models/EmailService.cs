@@ -5,38 +5,37 @@ using SendGrid;
 using SendGrid.Helpers.Mail;
 using Newtonsoft.Json;
 using Microsoft.Extensions.Configuration;
+using EmailConfirmationServerCore.Models;
 
-namespace EmailConfirmationServer.Models
+namespace EmailConfirmationServer.Models 
 {
 
-    public class EmailService
+    public class EmailService : IEmailService
     {
-        private readonly IConfiguration _configuration;
+        private readonly IConfiguration configuration;
 
         private string APIKey = String.Empty;
        
-        public EmailService(ReadSheet sheet, IConfiguration configuration)
+        public EmailService(IConfiguration configuration)
         {
-            _configuration = configuration;
-            Sheet = sheet;
-            APIKey = _configuration["SendGridKey"];
+            this.configuration = configuration;            
+            APIKey = this.configuration["SendGridKey"];
         }
 
-        public ReadSheet Sheet { get; set; }
-
-        public async Task sendConfirmationEmails()
-        {            
+        public async Task SendConfirmationEmails(SheetUpload sheetUpload)
+        {
             var recipients = new List<EmailAddress>();
 
             var tasks = new List<Task>();
-            foreach (Person person in Sheet.People)
-            {   foreach (var email in person.Emails)
+            foreach (Person person in sheetUpload.People)
+            {
+                foreach (var email in person.Emails)
                 {
                     await sendConfirmationEmail(email.EmailAddress, person.FirstName, person.Id);
-                }                                 
-            }            
+                }
+            }
         }
-
+ 
         public async Task<Response> sendConfirmationEmail(string email, string name, int id)
         {
             var msg = new SendGridMessage();
@@ -62,7 +61,7 @@ namespace EmailConfirmationServer.Models
             Response response = await client.SendEmailAsync(msg);
             return response;
         }
-
+      
         private class UserInfo
         {
             [JsonProperty("name")]

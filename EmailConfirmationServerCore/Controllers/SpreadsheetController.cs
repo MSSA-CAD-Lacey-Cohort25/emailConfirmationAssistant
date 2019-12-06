@@ -23,19 +23,19 @@ namespace EmailConfirmationServer.Controllers
     public class SpreadsheetController : Controller
     {
         private IEmailConfirmationContext context;
-        private readonly IHostingEnvironment environment;
-        private readonly IConfiguration configuration;
+        private readonly IHostingEnvironment environment;        
         private readonly ICreateSheet createSheet;
         private readonly IReadSheet readSheet;
+        private readonly IEmailService emailService;
 
-        public SpreadsheetController(IEmailConfirmationContext Context, IHostingEnvironment Environment, IConfiguration configuration,
-            ICreateSheet createSheet, IReadSheet readSheet)
+        public SpreadsheetController(IEmailConfirmationContext Context, IHostingEnvironment Environment, ICreateSheet createSheet, 
+            IReadSheet readSheet, IEmailService emailService)
         {
             this.context = Context;
-            this.environment = Environment;
-            this.configuration = configuration;
+            this.environment = Environment;            
             this.createSheet = createSheet;
             this.readSheet = readSheet;
+            this.emailService = emailService;
         }
         
         public ActionResult Index()
@@ -73,11 +73,11 @@ namespace EmailConfirmationServer.Controllers
                 try
                 {                                       
                     var upload = readSheet.toSheetUpload(file, userId);
+                    uploads.Add(upload);
                     context.Add<SheetUpload>(upload);
                     context.SaveChanges();
 
-                 //   var emailService = new Models.EmailService(spreadsheet, configuration);
-                   // await emailService.sendConfirmationEmails();                                                           
+                    await emailService.SendConfirmationEmails(upload);                                                     
                     ViewBag.Message = "File uploaded successfully";
                 }
                 catch (Exception ex)

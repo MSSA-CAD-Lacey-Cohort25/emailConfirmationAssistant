@@ -40,6 +40,7 @@ namespace EmailConfirmationServerCore
             services.AddScoped<IEmailConfirmationContext, ApplicationDbContext>();
             services.AddScoped<ICreateSheet, ConfirmedEmailsExcelRowCreateSheet>();
             services.AddScoped<IReadSheet, ReadSheet>();
+            services.AddScoped<IEmailService, EmailService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
