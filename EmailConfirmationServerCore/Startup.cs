@@ -14,6 +14,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using EmailConfirmationServer.Models;
 using EmailConfirmationServerCore.Models;
+using EmailConfirmationServer.Data;
 
 namespace EmailConfirmationServerCore
 {
@@ -38,6 +39,7 @@ namespace EmailConfirmationServerCore
             services.AddRazorPages();
             services.AddScoped<IEmailConfirmationContext, ApplicationDbContext>();
             services.AddScoped<ICreateSheet, ConfirmedEmailsExcelRowCreateSheet>();
+            services.AddScoped<IReadSheet, ReadSheet>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

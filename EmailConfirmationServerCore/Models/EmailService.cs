@@ -15,14 +15,14 @@ namespace EmailConfirmationServer.Models
 
         private string APIKey = String.Empty;
        
-        public EmailService(Spreadsheet sheet, IConfiguration configuration)
+        public EmailService(ReadSheet sheet, IConfiguration configuration)
         {
             _configuration = configuration;
             Sheet = sheet;
             APIKey = _configuration["SendGridKey"];
         }
 
-        public Spreadsheet Sheet { get; set; }
+        public ReadSheet Sheet { get; set; }
 
         public async Task sendConfirmationEmails()
         {            

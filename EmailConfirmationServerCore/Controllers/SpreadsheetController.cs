@@ -26,14 +26,16 @@ namespace EmailConfirmationServer.Controllers
         private readonly IHostingEnvironment environment;
         private readonly IConfiguration configuration;
         private readonly ICreateSheet createSheet;
+        private readonly IReadSheet readSheet;
 
         public SpreadsheetController(IEmailConfirmationContext Context, IHostingEnvironment Environment, IConfiguration configuration,
-            ICreateSheet createSheet)
+            ICreateSheet createSheet, IReadSheet readSheet)
         {
             this.context = Context;
             this.environment = Environment;
             this.configuration = configuration;
             this.createSheet = createSheet;
+            this.readSheet = readSheet;
         }
         
         public ActionResult Index()
@@ -69,20 +71,13 @@ namespace EmailConfirmationServer.Controllers
             if (file != null && file.Length > 0)
             {
                 try
-                {
-                    string webRoot = environment.WebRootPath;
-                    string path = Path.Combine(webRoot, Path.GetFileName(file.FileName));
-                    await saveFileToRootFolder(path, file);
-                                        
-                    Spreadsheet spreadsheet = new Spreadsheet(path);                    
-                    var upload = createNewUpload(userId, spreadsheet, file.FileName);
-                    uploads.Add(upload);
-
+                {                                       
+                    var upload = readSheet.toSheetUpload(file, userId);
                     context.Add<SheetUpload>(upload);
                     context.SaveChanges();
 
-                    var emailService = new Models.EmailService(spreadsheet, configuration);
-                    await emailService.sendConfirmationEmails();                                                           
+                 //   var emailService = new Models.EmailService(spreadsheet, configuration);
+                   // await emailService.sendConfirmationEmails();                                                           
                     ViewBag.Message = "File uploaded successfully";
                 }
                 catch (Exception ex)
@@ -105,7 +100,7 @@ namespace EmailConfirmationServer.Controllers
             }
         }
      
-        private SheetUpload createNewUpload(string userId, Spreadsheet sheet, string fileName)
+        private SheetUpload createNewUpload(string userId, ReadSheet sheet, string fileName)
         {            
             SheetUpload upload = new SheetUpload(userId, fileName);
             upload.People = sheet.People;

@@ -1,5 +1,6 @@
 ﻿using EmailConfirmationServerCore.Models;
 using Excel.IO;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -10,38 +11,51 @@ using System.Runtime.InteropServices;
 namespace EmailConfirmationServer.Models
 {
     //this class does all the work for reading the spreadsheet after it is uploaded
-    public class Spreadsheet
+    public class ReadSheet : IReadSheet
     {
         public List<Person> People { get; set; }
 
         public string FilePath { get; set; }
 
-        public Spreadsheet(string filepath)
+        public ReadSheet()
         {
-            if (!File.Exists(filepath))
-                throw new ArgumentNullException("The files are not in the computer.");
-            
-            FilePath = filepath;
             People = new List<Person>();
-            ReadSheet();
         }
-    
-        private void ReadSheet()
+   
+        public SheetUpload toSheetUpload(IFormFile file, string userId)
+        {
+            if( file == null)
+            {
+                throw new ArgumentNullException("file", "Argument file cannot be null.");
+            }
+
+            MemoryStream memoryStream = new MemoryStream();
+            file.CopyTo(memoryStream);
+
+            var people = convertToPersonCollection(memoryStream);
+
+            SheetUpload upload = new SheetUpload(userId, file.FileName);
+            upload.People = people;
+            return upload;
+        }
+
+        private ICollection<Person> convertToPersonCollection(Stream inputStream)
         {
             var excelConverter = new ExcelConverter();
-            var rows = excelConverter.Read<PersonRow>(FilePath);
-            
+            var rows = excelConverter.Read<PersonRow>(inputStream);
+
             if (rows == null)
                 throw new FileFormatException(
                     "There was an error reading the file. " +
                     "Make sure to check the property names in the row model match the column names in the spreadhseet.");
 
-            convertRowsToPeople(rows);
+            return convertRowsToPeople(rows);
         }
 
-        private void convertRowsToPeople(IEnumerable<PersonRow> rows)
+        private ICollection<Person> convertRowsToPeople(IEnumerable<PersonRow> rows)
         {
-            int personId = 1; 
+            int personId = 1;            
+            
             foreach(var row in rows)
             {
                 if (row == null)
@@ -51,6 +65,8 @@ namespace EmailConfirmationServer.Models
 
                 People.Add(convertRowToPerson(row));                
             }
+
+            return People;
         }
 
         private Person convertRowToPerson(PersonRow row)
@@ -64,6 +80,6 @@ namespace EmailConfirmationServer.Models
             person.Emails.Add(new Email(row.StMartin));
 
             return person; 
-        }             
+        }      
     }
 }
