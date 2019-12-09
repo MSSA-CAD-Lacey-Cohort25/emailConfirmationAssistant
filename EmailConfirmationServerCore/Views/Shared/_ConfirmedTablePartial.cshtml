@@ -38,8 +38,11 @@
                 <tr>
                     <td>@person.FirstName</td>
                     <td>@person.LastName</td>
+                    @{ 
+                        var orderedEmails = OrderEmailsHelper.OutlookFirst(person.Emails.ToList());
+                    }
 
-                    @foreach (var email in person.Emails)
+                    @foreach (var email in orderedEmails)
                     {
                         @:console.log(@person.FirstName + ": " + @email)
                         if (email.IsConfirmed)

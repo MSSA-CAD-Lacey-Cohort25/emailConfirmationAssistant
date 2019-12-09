@@ -50,8 +50,12 @@
                                     <td style="white-space: normal;">@person.FirstName</td>
                                     <td style="white-space: normal;">@person.LastName</td>
 
-                                    @foreach (var email in person.Emails)
-                                    {
+                                        @{
+                                            var orderedEmails = OrderEmailsHelper.OutlookFirst(person.Emails.ToList());
+                                        }
+
+                                        @foreach (var email in orderedEmails)
+                                        {
                                         if (email.IsConfirmed)
                                         {
 
@@ -88,7 +92,11 @@
                                     <td style="white-space: normal;">@person.FirstName</td>
                                     <td style="white-space: normal;">@person.LastName</td>
 
-                                    @foreach (var email in person.Emails)
+                                    @{
+                                        var orderedEmails = OrderEmailsHelper.OutlookFirst(person.Emails.ToList());
+                                    }
+
+                                    @foreach (var email in orderedEmails)
                                     {
                                         if (!email.IsConfirmed)
                                         {

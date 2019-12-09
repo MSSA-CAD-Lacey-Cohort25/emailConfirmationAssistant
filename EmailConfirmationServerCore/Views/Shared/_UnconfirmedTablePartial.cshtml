@@ -40,12 +40,15 @@
                 <tr>
                     <td>@person.FirstName</td>
                     <td>@person.LastName</td>
+                    @{
+                        var orderedEmails = OrderEmailsHelper.OutlookFirst(person.Emails.ToList());
+                    }
 
-                    @foreach (var email in person.Emails)
+                    @foreach (var email in orderedEmails)
                     {
                         if (!email.IsConfirmed)
                         {
-                            
+
                             <td>@email.EmailAddress</td>
                         }
                         else
