@@ -21,12 +21,20 @@
                     @{ bool first = true; }
                     @foreach (SheetUpload sheet in Model)
                     {
+                        
+                        string title = @sheet.Title;
+                        if (title.Length >= 12)
+                        {
+                            title = title.Substring(0, 12);
+                            title += "...";
+                        }
+                        
                         if (first)
                         {
                             <div style="display:flex; flex-direction: row;">
                                 <div class="nav-item">
                                     <a class="nav-link active" style="color:black" onclick="onSheetSelect()" href="#" id=@sheet.Id>
-                                        @sheet.Title
+                                        @title
                                     </a>
                                 </div>
                                 @{first = false;}
@@ -44,7 +52,7 @@
                             <div style="display:flex; flex-direction: row">
                                 <div class="nav-item">
                                     <a class="nav-link" style="color:black" onclick="onSheetSelect()" href="#" id=@sheet.Id>
-                                        @sheet.Title
+                                        @title
                                     </a>
                                 </div>
                                 <form asp-action="DeleteSpreadsheet" asp-controller="Spreadsheet" method="post">
@@ -85,8 +93,7 @@
 
         $(function () {
             $('body').on('click', "#showUnconfirmedButton", function () {
-                var uploadId = $(this).prop("value")
-                console.log("unconfirmed: " + uploadId)
+                var uploadId = $(this).prop("value")                
                 $("#tableHolder").load('@Url.Action("LoadSpreadsheet")', { id: uploadId })
             })
 
@@ -94,8 +101,7 @@
 
         $(function () {
             $('body').on('click', "#showConfirmedButton", function () {
-                var uploadId = $(this).prop("value")
-                console.log("confirmed: " + uploadId)
+                var uploadId = $(this).prop("value")                
                 $("#tableHolder").load('@Url.Action("LoadSpreadsheet")', { id: uploadId, showConfirmed: true })
             })
 

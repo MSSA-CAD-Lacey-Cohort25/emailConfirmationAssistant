@@ -24,31 +24,36 @@
                     foreach (var person in Model)
                     {
 
-                        bool bothEmailsConfirmed = false;
+                        bool atLeastOneEmailIstNotConfirmed = false;
 
                         foreach (var email in person.Emails)
                         {
-                            if (!email.IsConfirmed)
+                            if (email.IsConfirmed == false)
                             {
-                                bothEmailsConfirmed = true;
+                                atLeastOneEmailIstNotConfirmed = true;
 
                             }
                         }
-                        if (bothEmailsConfirmed == true)
+                        if (atLeastOneEmailIstNotConfirmed == true)
                         {
-                            <tr>
-                                <td>@person.FirstName</td>
-                                <td>@person.LastName</td>
+                            
+                <tr>
+                    <td>@person.FirstName</td>
+                    <td>@person.LastName</td>
 
-                                @foreach (var email in person.Emails)
-                                {
-                                    if (!email.IsConfirmed)
-                                    {
-
-                                        <td>@email.EmailAddress</td>
-                                    }
-                                }
-                            </tr>
+                    @foreach (var email in person.Emails)
+                    {
+                        if (!email.IsConfirmed)
+                        {
+                            
+                            <td>@email.EmailAddress</td>
+                        }
+                        else
+                        {
+                            <td> @String.Empty</td>
+                        }
+                    }
+                </tr>
                         }
 
                     }
